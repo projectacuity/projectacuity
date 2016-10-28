@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0efd1b44f47c134fb245914a1d54a55adbfc2f8d">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-impl-9.6.1_6e062f4ff14747717b1ac6efc38c480193b37733/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1ef72e72bc0d05602c366582afa9439f58bb31d6">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.6.1_25419644d20957d7779827814119fde9c42f2480/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_a9fca06d8c6750da80719e5676ec057ced9af3a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a1c351dc10b92d638da57f3a6513f87cfbdc9f83">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-analytics-9.6.1_fe896095c1089b68908d35b7bcb05384f5ec23eb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_64bd9ff38be9830581b24bd3eb584a7056bdfd63/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_13e722dc4d4824f2ac4d26766c0c29c1b53653e1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_50212727b437c81c4e546f851972681c3735c37e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_7a1bf3807fee1bf8f5a4133a0482dd986807574b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1e14ebe1cda8491f152083e752ca5bf73cd37bff">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-iid-9.6.1_76fd4d73827b435303b5c58a25b2fc67b1da9c2c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.0_9beada139627c52c7ec8762712e58564d5d75825/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4a36600281a648769411ef642c331851732bf29e">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.6.1_f78d26fd57d6254efa7370ceee2aace02706ff20/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_785e321b91155664ee06c4c0d0ebc82db58df8a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.6.1_2e6f54df8628e9ec27091a29dfa1d71ca410e447/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_1ef0831da31960976e5895fc241a57a90f475e4b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0be7d60ef15519eb7574a60d306bbb03067bf8ad">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_13de2df110916ae5a48fdfaea59d5b696b8765fe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-module/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="6ffe8b28ab61e5ee92ab9431a220379790c71ddf">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-module-9.6.1_38cfda275fc0b37a47a9f56bc1a2e1d93dce67de/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_bb46c98bc77d8db7698602e3901bcfb565c6a09e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.0.0_4506ea9f352bf7c197dcf13a3e5fefa9ea66c888/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="2a18547ea91d258866d132c2a763185f15b01b25">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-9.6.1_09c75f8fab721823d14256e3e3c5ba374886751f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.0.0_114fefbfc07723c0aa59a0d2e3e945bf48cdc5ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_cabbf571519474a2c7f456309b4b9c46e37f7c91/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ae32c0adfe779e5a12d5e4acf69c09f42e818098">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1b337ed40d4a4c81e7411c125c523eddd818e676/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_0725d3a95995bb0306fd9f3ce8436b3e1962ed30/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_6a76ce01a69eba4680d513ad70393233dbcefcb0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.firebase/firebase-auth-common/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="77558e74bb2056ef38516296f13a27c4c4fc3e5c">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-auth-common-9.6.1_818f6c9ec7081e285375e02e0cb470b477e56172/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.6.1_e76cbc3172d6f5361384406e29b2a5b37aabd141/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.0.0_07f8cd4d691a3099eb189576e9c1d685d322ab3c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_772040a2cde142c33e590bed0f07e6eac9372140/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_2f86271ebd0363627974fde78124fe5c71445f93/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/home/mahdi/AndroidStudioProjects/Acuity/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_b26aa86122e361584ceae28bfc0f1688eb0a5b9a/classes.dex" />
+    </item>
+
+</items>
