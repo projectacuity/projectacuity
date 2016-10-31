@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private TextInputLayout mTextPassView;
     private TextInputLayout mTextEmailView;
+    ///als;kdfjal;ksdjfkljashdf
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
