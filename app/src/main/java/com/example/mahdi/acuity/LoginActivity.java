@@ -1,5 +1,6 @@
 package com.example.mahdi.acuity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -13,8 +14,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private TextInputLayout mTextPassView;
     private TextInputLayout mTextEmailView;
+    private LinearLayout mProgressView;
+    private View mLoginFormView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
@@ -51,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //TextInputLayout
         mTextPassView = (TextInputLayout) findViewById(R.id.password_layout);
         mTextEmailView = (TextInputLayout) findViewById(R.id.email_layout);
+        mProgressView = (LinearLayout) findViewById(R.id.progressBar);
+        mLoginFormView = findViewById(R.id.login_form);
         //Button
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         mPasswordView.setOnEditorActionListener(this);
@@ -85,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
+        showProgress(true);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -95,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             finish();
                         }
                         else {
+                            showProgress(false);
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -138,16 +148,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         return valid;
     }
+    private void showProgress(final boolean show) {
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.email_sign_in_button) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
             signIn(mEmailView.getText().toString(), mPasswordView.getText().toString());
         }
     }
     @Override
     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
         if (id == EditorInfo.IME_ACTION_GO) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
             signIn(mEmailView.getText().toString(), mPasswordView.getText().toString());
             return true;
         }

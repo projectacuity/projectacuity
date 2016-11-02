@@ -10,6 +10,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mahdi.acuity.LoginActivity">
 
+    <LinearLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -21,10 +33,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:focusableInTouchMode="true">
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:src="@drawable/welcome"/>-->
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +76,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimary"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

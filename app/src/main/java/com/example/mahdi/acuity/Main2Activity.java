@@ -48,6 +48,7 @@ public class Main2Activity extends AppCompatActivity
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
+                    session.logoutUser();
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
@@ -73,10 +74,6 @@ public class Main2Activity extends AppCompatActivity
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-    }
-    private void signOut() {
-        mAuth.signOut();
-        session.logoutUser();
     }
     @Override
     public void onBackPressed() {
@@ -119,7 +116,7 @@ public class Main2Activity extends AppCompatActivity
         } else if (id==R.id.nav_notifiation) {
         } else if (id == R.id.nav_settings) {
         } else if (id == R.id.nav_logout) {
-            signOut();
+            mAuth.signOut();
         }
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

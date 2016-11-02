@@ -1,5 +1,6 @@
 package com.example.mahdi.acuity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private TextInputLayout mTextEmailView;
     private TextInputLayout mTextNicknameView;
     private TextInputLayout mTextPassConfirm;
+    private LinearLayout mProgressView;
+    private View mLoginFormView;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -65,6 +70,8 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         mTextEmailView = (TextInputLayout) findViewById(R.id.email_layout);
         mTextNicknameView = (TextInputLayout) findViewById(R.id.nickname_layout);
         mTextPassConfirm = (TextInputLayout) findViewById(R.id.password_confirm_layout);
+        mProgressView = (LinearLayout) findViewById(R.id.progressBar);
+        mLoginFormView = findViewById(R.id.login_form);
         //Button
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         mPasswordConfirm.setOnEditorActionListener(this);
@@ -100,6 +107,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         if (!validateForm()) {
             return;
         }
+        showProgress(true);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -109,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                             onAuthSuccess(task.getResult().getUser());
                         }
                         else {
+                            showProgress(false);
                             Toast.makeText(SignUpActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -163,6 +172,10 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         }
         return valid;
     }
+    private void showProgress(final boolean show) {
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
     private void onAuthSuccess(FirebaseUser firebaseUser) {
         String nickname = mNickname.getText().toString();
         String email = mEmailView.getText().toString();
@@ -177,12 +190,18 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.email_sign_in_button) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
             createAccount(mEmailView.getText().toString(), mPasswordView.getText().toString());
         }
     }
     @Override
     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
         if (id == EditorInfo.IME_ACTION_GO) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.RESULT_UNCHANGED_SHOWN);
             createAccount(mEmailView.getText().toString(), mPasswordView.getText().toString());
             return true;
         }
