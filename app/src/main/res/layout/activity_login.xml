@@ -21,8 +21,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:focusableInTouchMode="true">
-
-
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:src="@drawable/welcome"/>-->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +66,7 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

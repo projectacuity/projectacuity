@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "264350013374",
-    "firebase_url": "https://acuity-671fc.firebaseio.com",
-    "project_id": "acuity-671fc",
-    "storage_bucket": "acuity-671fc.appspot.com"
+    "project_number": "236100922167",
+    "firebase_url": "https://projectacuity.firebaseio.com",
+    "project_id": "projectacuity",
+    "storage_bucket": "projectacuity.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:264350013374:android:5174f0c2200fb8aa",
+        "mobilesdk_app_id": "1:236100922167:android:5174f0c2200fb8aa",
         "android_client_info": {
           "package_name": "com.example.mahdi.acuity"
         }
       },
       "oauth_client": [
         {
-          "client_id": "264350013374-qlmq0ro1ol92c89u7raova6nkp0u50bq.apps.googleusercontent.com",
+          "client_id": "236100922167-to5gf2j8oq9qkgumk5al2k5pmref9gm1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.mahdi.acuity",
-            "certificate_hash": "79BCD7C3BDCAF76652289EABEADEB50ED5282A52"
+            "certificate_hash": "D1D2A1BDB298ED18D77F42895985FAA8B803E284"
           }
         },
         {
-          "client_id": "264350013374-5shl48i35ivfbn0cav8m70po1u94l3m2.apps.googleusercontent.com",
+          "client_id": "236100922167-65b0kntlsj516smr98iob2udg7bcjosj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5-eL-hqaRcg789cNecOhP3E3DTtyPJzw"
+          "current_key": "AIzaSyBNloLol3xdDG44RRsumRG2X-LIovvYYJs"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "264350013374-5shl48i35ivfbn0cav8m70po1u94l3m2.apps.googleusercontent.com",
+              "client_id": "236100922167-65b0kntlsj516smr98iob2udg7bcjosj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
