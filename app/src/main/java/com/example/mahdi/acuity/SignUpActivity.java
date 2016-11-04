@@ -1,5 +1,6 @@
 package com.example.mahdi.acuity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -50,6 +51,8 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
+    private ProgressDialog mProgress;
+
 
 
 
@@ -72,6 +75,11 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         mTextPassConfirm = (TextInputLayout) findViewById(R.id.password_confirm_layout);
         mProgressView = (LinearLayout) findViewById(R.id.progressBar);
         mLoginFormView = findViewById(R.id.login_form);
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Sign up...");
+        mProgress.setMessage("Please wait.");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
         //Button
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         mPasswordConfirm.setOnEditorActionListener(this);
@@ -107,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         if (!validateForm()) {
             return;
         }
-        showProgress(true);
+        mProgress.show();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -117,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                             onAuthSuccess(task.getResult().getUser());
                         }
                         else {
-                            showProgress(false);
+                            mProgress.dismiss();
                             Toast.makeText(SignUpActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -172,10 +180,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         }
         return valid;
     }
-    private void showProgress(final boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-    }
     private void onAuthSuccess(FirebaseUser firebaseUser) {
         String nickname = mNickname.getText().toString();
         String email = mEmailView.getText().toString();
@@ -183,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         // Write new user
         mDatabase.child("users").child(firebaseUser.getUid()).setValue(user);
         // Go to MainActivity
-        startActivity(new Intent(SignUpActivity.this, Main2Activity.class));
+        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
         finish();
     }
     @Override

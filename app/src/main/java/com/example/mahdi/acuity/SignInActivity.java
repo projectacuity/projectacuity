@@ -1,5 +1,6 @@
 package com.example.mahdi.acuity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -7,18 +8,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +28,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Pattern;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
+public class SignInActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "SignInActivity";
     // Session Manager Class
     SessionManager session;
     private EditText mEmailView;
@@ -44,10 +41,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ProgressDialog mProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_in);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Session Manager
         session = new SessionManager(getApplicationContext());
@@ -59,6 +57,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTextEmailView = (TextInputLayout) findViewById(R.id.email_layout);
         mProgressView = (LinearLayout) findViewById(R.id.progressBar);
         mLoginFormView = findViewById(R.id.login_form);
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Sign in...");
+        mProgress.setMessage("Please wait.");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
         //Button
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         mPasswordView.setOnEditorActionListener(this);
@@ -93,19 +96,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-        showProgress(true);
+        mProgress.show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             session.createLoginSession();
-                            startActivity(new Intent(LoginActivity.this, Main2Activity.class));
+                            mProgress.dismiss();
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
                             finish();
                         }
                         else {
-                            showProgress(false);
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            mProgress.dismiss();
+                            Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -148,10 +152,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         return valid;
     }
-    private void showProgress(final boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-    }
+//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     @Override
     public void onClick(View v) {
         int i = v.getId();

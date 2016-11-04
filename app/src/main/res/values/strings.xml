@@ -27,4 +27,16 @@
     <string name="error_invalid_name">This name is invalid</string>
     <string name="error_pass_confirm">This password confirmation doesn\'t match your password</string>
     <string name="search_hint">Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="settings_fragment">Hello settings fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="interests_fragment">Hello interests fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="my_account_fragment">Hello my account fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_fragment">Hello home fragment</string>
 </resources>
