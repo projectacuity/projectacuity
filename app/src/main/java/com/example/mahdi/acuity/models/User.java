@@ -5,11 +5,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class User {
 
-    public String username;
-    public String email;
+    protected String username;
+    protected String email;
 
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        this.username="None";
+        this.email="None@none";
     }
 
     public User(String username, String email) {
@@ -17,4 +18,19 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

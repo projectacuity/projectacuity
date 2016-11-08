@@ -33,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent2;
             @Override
             public void onClick(View v) {
-                intent2=new Intent(WelcomeActivity.this,SignInActivity.class);
+                intent2=new Intent(getApplicationContext(),LogInActivity.class);
                 startActivity(intent2);
             }
         });

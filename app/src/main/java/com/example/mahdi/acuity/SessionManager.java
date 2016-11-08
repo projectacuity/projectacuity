@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.example.mahdi.acuity.models.User;
+
 public class SessionManager {
     // Shared Preferences
     SharedPreferences pref;
@@ -16,6 +18,10 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
     // Sharedpref file name
     private static final String PREF_NAME = "AcuityPref";
+    // User name (make variable public to access from outside)
+    public static final String KEY_NAME = "name";
+    // Email address (make variable public to access from outside)
+    public static final String KEY_EMAIL = "email";
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
@@ -26,12 +32,23 @@ public class SessionManager {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
-    public void createLoginSession(){
+    public void createLoginSession(String name, String email){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
-
+        editor.commit();
+        // Storing name in pref
+        editor.putString(KEY_NAME, name);
+        editor.commit();
+        // Storing email in pref
+        editor.putString(KEY_EMAIL, email);
         // commit changes
         editor.commit();
+    }
+    public User getUserDetails() {
+        User user = new User();
+        user.setEmail(pref.getString(KEY_EMAIL, ""));
+        user.setUsername(pref.getString(KEY_NAME, ""));
+        return user;
     }
     public void checkLogin(){
         // Check login status
@@ -47,7 +64,7 @@ public class SessionManager {
         }
         else {
             // user is logged in redirect him to Main Activity
-            Intent i = new Intent(_context, MainActivity.class);
+            Intent i = new Intent(_context, TabbedActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity
