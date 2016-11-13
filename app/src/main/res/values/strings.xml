@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Acuity</string>
 
+    <plurals name="likes_count">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
+    <string name="user_profile_photo">https://fb-s-d-a.akamaihd.net/h-ak-xta1/v/t1.0-1/p160x160/13769540_1218667208144354_7226613617115535173_n.jpg?oh=4bceab9c3af370a3e74a3d60977fa50a&amp;oe=58878FC0\&amp;__gda__=1490286520_7205c4edca5b2ee3745969ca2c557191</string>
+    <string name="title_activity_nav">NavActivity</string>
+
     <string name="prompt_email">Email</string>
     <string name="prompt_nickname">Nickname</string>
     <string name="prompt_password">Password</string>

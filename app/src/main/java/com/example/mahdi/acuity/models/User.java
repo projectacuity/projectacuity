@@ -2,24 +2,30 @@ package com.example.mahdi.acuity.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+
 @IgnoreExtraProperties
 public class User {
-
     protected String username;
     protected String email;
-
-    public User() {
-        this.username="None";
-        this.email="None@none";
-    }
+    protected Post post;
 
     public User(String username, String email) {
         this.username = username;
         this.email = email;
     }
 
+    public User(String username, String email, Post post) {
+        this.username = username;
+        this.email = email;
+        this.post=post;
+    }
+    public User() {
+        this.username = "";
+        this.email = "";
+    }
+
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
@@ -27,10 +33,18 @@ public class User {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

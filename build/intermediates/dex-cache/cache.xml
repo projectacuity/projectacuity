@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="e9427f6296a6b69ff422a1d88057f0867ef9397c">
+        sha1="108ab3d900760a09b70947ded29c4e449bcb76ce">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_07ba1577b8412fc8641ba1b74a398bdbb9e50c65\classes.dex" />
     </item>
     <item
@@ -39,6 +39,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui-storage\0.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3c433e48557e476290f45fb6cb568d1a103c9978">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-storage-0.6.0_9b26bd8bd8d73019c7a86cc03b9e2644a3ea6049\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\9.8.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -57,12 +66,39 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_1880f32a2dedf60fdb2bbb417403306920444eee\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_4fd28d2df1418e6027bad0122da1a4c07a315c37\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\9.8.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="7e92aadd0697922316d1395c1887a23aebec640a">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-9.8.0_8fcef75f90229fd2a772715000d3b971caa6c5c9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui-auth\0.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8ac09931704b91e7b4d281f5e34b3b006b628c22">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-auth-0.6.0_74a58e07aa2fd05a5cd265c7b3e390d73903aa79\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -90,6 +126,15 @@
         revision="24.0.3"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_0cc612ed2d239a5fd9addb6b2d7155df1bd96da9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\9.8.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7fd91ec2730fdaa82906aad32a3f3d3e574bae56">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-9.8.0_cd81fb7cd73d8f089c93fe3b37eaf39f06ee239d\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -138,6 +183,24 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui-database\0.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ebf985be182798e6322fee8fe437b14ee6bb8609">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-database-0.6.0_ee8ff9638f83998174027fcda690fa94076816c1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth-base\9.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0ef21408e3142ffbfbd4a7ec1762c3325c6c386c">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-base-9.6.0_402625c11e7a781950600659cee4000e186383e9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -153,6 +216,24 @@
         revision="24.0.3"
         sha1="c5e6490573cd2cc8018417f60ddd251138b6ed61">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-24.2.1_7836ae512a04cf795dc2691c18a7a54ac5565361\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_c39d85690f445f13a3b0ec46a2c54e3069331f12\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.14.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="42a3ae86dd3ae2876d3e95c2e6e104ae57a50a65">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.14.1_7e83702cab4801f702b1944a3c1def417556194c\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -183,12 +264,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.android.support\palette-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="51518e8e8f97c314a243d9def0ded91d385b6a1e">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-palette-v7-23.4.0_a37b0cf1c208163d05e6e494f37b1d219f7fc992\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_6445d0e64b57ad41b882dd86b8b27e39d944e8fb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_4f64d78977bf0836ec666c85f0778d6f13d9b972\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -201,6 +300,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\9.8.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="ec9104b53aee77dfcfd2fe1c4add23ff7c4df55f">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-9.8.0_55419c441fa7086a57be3c09ca0e0c97c058239c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics-impl\9.8.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -210,12 +318,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\9.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1f4bb2577a30d0b3268fed038ed59230709ad593">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-9.6.0_2ec0d8ea1288289eeda0d42f19c90ac6b851b714\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.8.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="03df48d3713661d66ad024b1e406259a4c26fcac">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-9.8.0_c75dedc6b67d2b1aa351dd30d378947c590a9b6e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui\0.6.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="16226703bab55ec42457666213cd3503799d36a8">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-0.6.0_da7579acc0d71852cf52ce7b1906a2fa3b3325af\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -241,7 +367,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="192a5037e3de1d6fd02d03ef921ea8b729fe8bec">
+        sha1="77cd0fce066ad855bf4bb1f638acdd0199705f0c">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_8b56214e8070e5f5edd27a25e2b79fc4e05c6c07\classes.dex" />
     </item>
     <item
@@ -264,15 +390,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\de.hdodenhof\circleimageview\2.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="a2af9c72ccaa4c5c049b500ca6ea664a4ce1f7d4">
-        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\de.hdodenhof-circleimageview-2.1.0_1f89d668481d2396c281225a8dc70b02ed1de783\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -282,12 +399,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.0\jars\classes.jar"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.android.support\customtabs\23.4.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
-        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-9.8.0_46997a151802a1183c5c219034a949539a3042fd\classes.dex" />
+        sha1="2d1eaa9e0b98f8fc4c2b989d9b30d4f1480648ac">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-customtabs-23.4.0_a4087af2dc9a04ece7d12182d85948699c978425\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -297,6 +414,15 @@
         revision="24.0.3"
         sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_f4eb84ca2d9eb50c773b9b1ace8b41ec34b63c05\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-9.8.0_46997a151802a1183c5c219034a949539a3042fd\classes.dex" />
     </item>
 
 </items>
