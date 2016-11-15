@@ -36,8 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent2;
             @Override
             public void onClick(View v) {
-                intent2=new Intent(getApplicationContext(),LogInActivity.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent2=new Intent(getApplicationContext(),SignInActivity.class);
                 startActivity(intent2);
                 finish();
             }

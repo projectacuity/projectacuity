@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LogInActivity"
+            android:name=".activities.SignInActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".activities.WelcomeActivity"
             android:theme="@style/AppTheme.ActionBar">

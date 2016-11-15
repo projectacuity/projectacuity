@@ -12,12 +12,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvFeed"
+        <FrameLayout
+            android:id="@+id/my_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </FrameLayout>
+
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"

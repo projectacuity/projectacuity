@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.adpaters.PostAdapter;
 import com.example.mahdi.acuity.models.Post;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserProfileActivity extends BaseDrawerActivity implements PostAdapter.OnPostClickListener{
-    private static final String TAG = "UserProflileActivity";
+public class UserProfileActivity extends BaseDrawerActivity {
+    private static final String TAG = "UserProfileActivity";
 
 
     private FirebaseAuth mAuth;
@@ -40,8 +39,6 @@ public class UserProfileActivity extends BaseDrawerActivity implements PostAdapt
     View vUserProfileRoot;
     CoordinatorLayout clContent;
     List<Post> posts= new ArrayList<>();
-
-    private PostAdapter postAdapter;
 
 
     @Override
@@ -62,43 +59,12 @@ public class UserProfileActivity extends BaseDrawerActivity implements PostAdapt
         };
         rvUserProfile = (RecyclerView) findViewById(R.id.rvUserProfile);
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
-//        StorageReference storageRef = storage.getReferenceFromUrl("gs://projectacuity.appspot.com");
-//        StorageReference imagesRef = storageRef.child("users").child(mAuth.getCurrentUser().getUid()).child("1.jpg");
-//        Glide.with(this).using(new FirebaseImageLoader()).load(imagesRef).centerCrop().into(ivUserProfilePhoto);
         userDetails = findViewById(R.id.userDetails);
         btnFollow = (Button) findViewById(R.id.btnFollow);
         userStats = findViewById(R.id.userStats);
         vUserProfileRoot = findViewById(R.id.vUserProfileRoot);
         clContent = (CoordinatorLayout) findViewById(R.id.content);
-        setupFeed();
-        updateItems();
-    }
-private void setupFeed() {
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
-        @Override
-        protected int getExtraLayoutSpace(RecyclerView.State state) {
-            return 300;
-        }
-    };
-    rvUserProfile.setLayoutManager(linearLayoutManager);
 
-    postAdapter = new PostAdapter(posts);
-    postAdapter.setOnPostClickListener(this);
-    rvUserProfile.setAdapter(postAdapter);
-}
-    public void updateItems() {
-        posts.clear();
-        posts.addAll(Arrays.asList(
-                new Post()
-        ));
-        postAdapter.notifyItemRangeInserted(0, posts.size());
-    }
-    @Override
-    public void onProfileClick(View v) {
-        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 }
 

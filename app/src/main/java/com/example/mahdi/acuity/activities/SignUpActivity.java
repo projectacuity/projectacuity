@@ -49,11 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
-    private DatabaseReference mUserRef;
     private ProgressDialog mProgress;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +79,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         //Authentication
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
     }
     @Override
     public void onStart() {
@@ -118,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            onAuthSuccess(FirebaseAuth.getInstance().getCurrentUser());
+                            onAuthSuccess(task.getResult().getUser());
                             mProgress.dismiss();
                         }
                         else {
@@ -180,14 +165,15 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private void onAuthSuccess(FirebaseUser firebaseUser) {
         String nickname = mNickname.getText().toString();
         String email = mEmailView.getText().toString();
-        User user=new User(nickname,email);
-        // Write new user
-        mDatabase.child("users").child(firebaseUser.getUid()).setValue(user);
-        // Go to MainActivity
+        writeNewUser(firebaseUser.getUid(), nickname, email);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mDatabase.child("users").child(userId).setValue(user);
     }
     @Override
     public void onClick(View v) {

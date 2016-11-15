@@ -2,57 +2,35 @@ package com.example.mahdi.acuity.models;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Post {
 
+    public String uid;
+    public String author;
+//    public String imageUrl;
     public String comment;
-    public int dislikesCount;
-    public String imageUrl;
-    public int likesCount;
-    public String postId;
-    @Exclude
-    public String posterId;
+    public int likesCount =0;
+    public int dislikesCount =0;
+    public Map<String, Boolean> likes = new HashMap<>();
+    public Map<String, Boolean> dislikes = new HashMap<>();
 
     public Post() {
     }
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("author", author);
+//        result.put("imageUrl", imageUrl);
+        result.put("comment",comment);
+        result.put("likesCount", likesCount);
+        result.put("dislikesCount", dislikesCount);
+        result.put("likes", likes);
+        result.put("dislikes", dislikes);
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public int getDislikesCount() {
-        return dislikesCount;
-    }
-
-    public void setDislikesCount(int dislikesCount) {
-        this.dislikesCount = dislikesCount;
-    }
-
-    public int getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
-    }
-
-    public Post(String postId, String posterId, String imageUrl, String comment, int dislikesCount, int likesCount) {
-
-        this.postId = postId;
-        this.posterId = posterId;
-        this.imageUrl = imageUrl;
-        this.comment = comment;
-        this.dislikesCount = dislikesCount;
-        this.likesCount = likesCount;
+        return result;
     }
 }
