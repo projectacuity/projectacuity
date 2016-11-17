@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,20 +33,16 @@ import java.util.regex.Pattern;
 
 
 public class SignUpActivity extends AppCompatActivity implements TextView.OnEditorActionListener, View.OnClickListener {
-
     private static final String TAG = "SignUpActivity";
-    // Session Manager Class
     SessionManager session;
     private TextInputEditText mEmailView;
     private TextInputEditText mPasswordView;
     private TextInputEditText mNickname;
     private TextInputEditText mPasswordConfirm;
-
     private TextInputLayout mTextPassView;
     private TextInputLayout mTextEmailView;
     private TextInputLayout mTextNicknameView;
     private TextInputLayout mTextPassConfirm;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
@@ -56,39 +53,49 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Session Manager
         session = new SessionManager(getApplicationContext());
-        //EditText
         mEmailView = (TextInputEditText) findViewById(R.id.email);
         mNickname = (TextInputEditText) findViewById(R.id.nickname);
         mPasswordView = (TextInputEditText) findViewById(R.id.password);
         mPasswordConfirm = (TextInputEditText) findViewById(R.id.password_confirm);
-        //TextInputLayout
         mTextPassView = (TextInputLayout) findViewById(R.id.password_layout);
         mTextEmailView = (TextInputLayout) findViewById(R.id.email_layout);
         mTextNicknameView = (TextInputLayout) findViewById(R.id.nickname_layout);
         mTextPassConfirm = (TextInputLayout) findViewById(R.id.password_confirm_layout);
-        // Progress dialog
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Signing up...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
-        //Button
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         mPasswordConfirm.setOnEditorActionListener(this);
-        //Authentication
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(mNickname.getText().toString()).build();
+                    user.updateProfile(profileUpdates);
+                    session.createLoginSession(user.getDisplayName(),user.getEmail());
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    mProgress.dismiss();
+                }
+            }
+        };
     }
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume(){
+        super.onResume();
         mAuth.addAuthStateListener(mAuthListener);
     }
     @Override
-    public void onStop() {
+    public void onStop(){
         super.onStop();
-        if (mAuthListener != null) {
+        if(mAuthListener != null){
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
@@ -104,9 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
-                            mProgress.dismiss();
-                        }
-                        else {
+                        } else {
                             mProgress.dismiss();
                             Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -114,26 +119,23 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                     }
                 });
     }
+
     private boolean validateForm() {
         mTextPassView.setError(null);
         mTextEmailView.setError(null);
         mTextNicknameView.setError(null);
         mTextPassConfirm.setError(null);
-
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String nickname = mNickname.getText().toString();
         String passConfirm = mPasswordConfirm.getText().toString();
-
         boolean valid = true;
         View focusView = null;
-
         if (TextUtils.isEmpty(password) || !isPasswordValid1(password)) {
             mTextPassView.setError(getString(R.string.error_invalid_password1));
             focusView = mPasswordView;
             valid = false;
-        }
-        else if (!isPasswordValid2(password)) {
+        } else if (!isPasswordValid2(password)) {
             mTextPassView.setError(getString(R.string.error_invalid_password2));
             focusView = mPasswordView;
             valid = false;
@@ -147,12 +149,12 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
             focusView = mEmailView;
             valid = false;
         }
-        if (!isValidName(nickname)){
+        if (!isValidName(nickname)) {
             mTextNicknameView.setError(getString(R.string.error_invalid_nickname));
-            focusView  = mNickname;
+            focusView = mNickname;
             valid = false;
         }
-        if (!isPasswordConfirmValid(password,passConfirm)) {
+        if (!isPasswordConfirmValid(password, passConfirm)) {
             mTextPassConfirm.setError(getString(R.string.error_pass_confirm));
             focusView = mPasswordConfirm;
             valid = false;
@@ -162,33 +164,33 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         }
         return valid;
     }
+
     private void onAuthSuccess(FirebaseUser firebaseUser) {
         String nickname = mNickname.getText().toString();
         String email = mEmailView.getText().toString();
         writeNewUser(firebaseUser.getUid(), nickname, email);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
     }
+
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
-
         mDatabase.child("users").child(userId).setValue(user);
     }
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.email_sign_in_button) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.RESULT_UNCHANGED_SHOWN);
             createAccount(mEmailView.getText().toString(), mPasswordView.getText().toString());
         }
     }
+
     @Override
     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
         if (id == EditorInfo.IME_ACTION_GO) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.RESULT_UNCHANGED_SHOWN);
             createAccount(mEmailView.getText().toString(), mPasswordView.getText().toString());
@@ -196,32 +198,38 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         }
         return false;
     }
-    private boolean isPasswordConfirmValid(String password1,String password2) {
+
+    private boolean isPasswordConfirmValid(String password1, String password2) {
         return password1.equals(password2);
     }
+
     private boolean isEmailValid(String email) {
         return limitEmailCharacters(email);
     }
 
     private boolean isPasswordValid1(String password) {
-        return password.length()>=6;
+        return password.length() >= 6;
     }
+
     private boolean isPasswordValid2(String password) {
         return limitPasswordCharacters(password);
     }
-    private  boolean isValidName(String name) {
+
+    private boolean isValidName(String name) {
         return limitNameCharacters(name);
     }
 
-    private static boolean limitEmailCharacters(String about){
+    private static boolean limitEmailCharacters(String about) {
         final Pattern USER_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
         return USER_NAME_PATTERN.matcher(about).matches();
     }
-    private static boolean limitPasswordCharacters(String about){
+
+    private static boolean limitPasswordCharacters(String about) {
         final Pattern USER_NAME_PATTERN = Pattern.compile("\\p{ASCII}*$");
         return USER_NAME_PATTERN.matcher(about).matches();
     }
-    private static boolean limitNameCharacters(String about){
+
+    private static boolean limitNameCharacters(String about) {
         final Pattern USER_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9._]+$");
         return USER_NAME_PATTERN.matcher(about).matches();
     }

@@ -1,5 +1,6 @@
 package com.example.mahdi.acuity.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
 import com.example.mahdi.acuity.adpaters.PostViewHolder;
 import com.example.mahdi.acuity.models.Post;
+import com.example.mahdi.acuity.models.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,17 +26,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import static com.example.mahdi.acuity.R.id.userProfilePhoto;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public abstract class PostListFragment extends Fragment {
 
     private static final String TAG = "PostListFragment";
-
-    // [START define_database_reference]
     private DatabaseReference mDatabase;
-    // [END define_database_reference]
-
     private FirebaseRecyclerAdapter<Post, PostViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
@@ -44,9 +49,7 @@ public abstract class PostListFragment extends Fragment {
                               Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
-        // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        // [END create_database_reference]
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
@@ -58,31 +61,19 @@ public abstract class PostListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Set up Layout Manager, reverse layout
         mManager = new LinearLayoutManager(getActivity());
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
 
-        // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase);
         mAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.item_post,
                 PostViewHolder.class, postsQuery) {
             @Override
             protected void populateViewHolder(final PostViewHolder viewHolder, final Post model, final int position) {
                 final DatabaseReference postRef = getRef(position);
-
-                // Set click listener for the whole post view
-//                final String postKey = postRef.getKey();
-//                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // Launch PostDetailActivity
-//                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-//                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-//                        startActivity(intent);
-//                    }
-//                });
+                setPostPhoto(viewHolder,model.imageUrl);
+                setPosterInfo(viewHolder,model.uid);
 
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.likes.containsKey(getUid())) {
@@ -124,7 +115,29 @@ public abstract class PostListFragment extends Fragment {
         };
         mRecycler.setAdapter(mAdapter);
     }
-
+    private void setPostPhoto(final PostViewHolder viewHolder, String url) {
+        final Context contextPostPhoto = viewHolder.postPhotoView.getContext();
+        StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+        Glide.with(contextPostPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(viewHolder.postPhotoView);
+    }
+    private void setPosterInfo(final PostViewHolder viewHolder, String uid) {
+        final Context contextUserPhoto = viewHolder.userPhotoView.getContext();
+        final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                viewHolder.authorView.setText(user.getUsername());
+                if (user.getPhotoUrl()!=null) {
+                    StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
+                    Glide.with(contextUserPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(viewHolder.userPhotoView);
+                }
+                }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
     // [START post_likess_transaction]
     private void onLikeClicked(DatabaseReference postRef) {
         postRef.runTransaction(new Transaction.Handler() {

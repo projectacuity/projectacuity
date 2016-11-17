@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mahdi.acuity">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-sdk tools:overrideLibrary="com.firebase.ui.auth, com.firebase.ui"/>
 
@@ -47,6 +49,11 @@
         </activity>
         <activity
             android:name=".activities.UserProfileActivity"/>
+        <activity
+            android:name=".activities.UploadPostActivity"
+            android:label="Add a post">
+
+        </activity>
     </application>
 
 </manifest>

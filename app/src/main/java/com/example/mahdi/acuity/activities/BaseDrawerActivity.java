@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,18 +43,17 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "BaseDrawerActivity";
-    SessionManager session;
-    DrawerLayout drawerLayout;
-    NavigationView vNavigation;
-    android.support.v7.widget.Toolbar toolbar;
-    private ImageView userProfilePhoto;
-    private TextView userName;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mUserRef;
-    private ProgressDialog mProgress;
-    FirebaseStorage storage;
+    protected static final String TAG = "BaseDrawerActivity";
+    protected SessionManager session;
+    protected DrawerLayout drawerLayout;
+    protected NavigationView vNavigation;
+    protected android.support.v7.widget.Toolbar toolbar;
+    protected ImageView userProfilePhoto;
+    protected TextView userName;
+    protected FirebaseAuth mAuth;
+    protected DatabaseReference mUserRef;
+    protected ProgressDialog mProgress;
+    protected FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,56 +73,25 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         mProgress.setMessage("Signing out...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
-        storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    onAuthSuccess();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        setupHeader();
+        setupNavHeader();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         vNavigation.setNavigationItemSelectedListener(this);
-
-
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-    private void onAuthSuccess() {
-
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_new_post);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user=dataSnapshot.getValue(User.class);
-                session.createLoginSession(user.getUsername(),user.getEmail());
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),UploadPostActivity.class);
+                startActivity(intent);
+//                takePhotoAction();
             }
         });
+
     }
     public void signOut() {
         new AlertDialog.Builder(this)
@@ -191,17 +161,57 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-    private void setupHeader() {
+    private void setupNavHeader() {
         View headerView = vNavigation.getHeaderView(0);
         headerView.findViewById(R.id.vGlobalMenuHeader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawer(Gravity.LEFT);
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }
         });
+        userName = (TextView) headerView.findViewById(R.id.userName);
+        userProfilePhoto = (ImageView) headerView.findViewById(R.id.userProfilePhoto);
+        setNavHeaderInfo();
+    }
+    private void setNavHeaderInfo() {
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
+        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                userName.setText(user.getUsername());
+                if (user.getPhotoUrl()!=null) {
+                    StorageReference userPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
+                    Glide.with(userProfilePhoto.getContext()).using(new FirebaseImageLoader()).load(userPhotoReference).centerCrop().into(userProfilePhoto);
+                }
+                }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+    protected void takePhotoAction() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+        builderSingle.setIcon(R.drawable.add_a_photo_blue);
+        builderSingle.setTitle("Add photo with");
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                R.layout.list_dialog);
+        arrayAdapter.add("Camera");
+        arrayAdapter.add("Gallery");
+        arrayAdapter.add("Cancel");
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builderSingle.show();
     }
     }

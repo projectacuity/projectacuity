@@ -1,22 +1,33 @@
 package com.example.mahdi.acuity.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
+import com.example.mahdi.acuity.adpaters.PostViewHolder;
 import com.example.mahdi.acuity.models.Post;
+import com.example.mahdi.acuity.models.User;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -27,44 +38,37 @@ import java.util.List;
 public class UserProfileActivity extends BaseDrawerActivity {
     private static final String TAG = "UserProfileActivity";
 
-
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    RecyclerView rvUserProfile;
-
     ImageView ivUserProfilePhoto;
-    View userDetails;
-    Button btnFollow;
-    View userStats;
-    View vUserProfileRoot;
-    CoordinatorLayout clContent;
-    List<Post> posts= new ArrayList<>();
-
+    TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-        rvUserProfile = (RecyclerView) findViewById(R.id.rvUserProfile);
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
-        userDetails = findViewById(R.id.userDetails);
-        btnFollow = (Button) findViewById(R.id.btnFollow);
-        userStats = findViewById(R.id.userStats);
-        vUserProfileRoot = findViewById(R.id.vUserProfileRoot);
-        clContent = (CoordinatorLayout) findViewById(R.id.content);
-
+        userName = (TextView)findViewById(R.id.userName);
+        setUserInfo();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.my_feed, new MyPostsFragment());
+        ft.commit();
+    }
+    private void setUserInfo() {
+        final Context contextUserPhoto = ivUserProfilePhoto.getContext();
+        final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
+        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                userName.setText(user.getUsername());
+                if (user.getPhotoUrl()!=null) {
+                    StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
+                    Glide.with(contextUserPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(ivUserProfilePhoto);
+                }
+                }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }
 

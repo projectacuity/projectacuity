@@ -11,12 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvUserProfile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -48,125 +42,59 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clipChildren="false">
-
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_marginRight="10dp">
                         <ImageView
                             android:id="@+id/userProfilePhoto"
                             android:layout_width="@dimen/user_profile_avatar_size"
                             android:layout_height="@dimen/user_profile_avatar_size"
-                            android:background="@android:color/darker_gray"
-                            android:layout_marginRight="16dp" />
+                            android:layout_marginBottom="5dp"/>
+                            <TextView
+                                android:id="@+id/userName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="#ffffff"
+                                android:textStyle="bold"
+                                android:textSize="18sp"/>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/userDetails"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_height="88dp"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:gravity="bottom">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Acuity"
-                                android:textColor="#ffffff"
-                                android:textSize="24sp" />
+                            <include layout="@layout/header_profile_info">
+                            </include>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Mobile development passionate."
-                                android:textColor="#ffffff"
-                                android:textSize="12sp" />
-
-                            <Button
+                            <LinearLayout
                                 android:id="@+id/btnFollow"
                                 android:layout_width="match_parent"
                                 android:layout_height="24dp"
-                                android:layout_marginRight="24dp"
+                                android:orientation="horizontal"
                                 android:layout_marginTop="8dp"
                                 android:background="@android:color/holo_blue_bright"
-                                android:text="following"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp" />
+                                android:gravity="center">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="MANAGE MY ACCOUNT"
+                                        android:textStyle="bold"
+                                        android:textSize="12dp"
+                                        android:textColor="@android:color/white"/>
+                                    </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/userStats"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="16dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@android:color/white"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="posts"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@android:color/white"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="followers"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@android:color/white"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="following"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
                 </LinearLayout>
 
                 <android.support.v7.widget.Toolbar
@@ -185,6 +113,13 @@
             </android.support.design.widget.CollapsingToolbarLayout>
 
         </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/my_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

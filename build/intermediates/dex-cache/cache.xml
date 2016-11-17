@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="3adaa6b1f1e1f5df7091379215f433bf127c24b9">
+        sha1="4ed646e75d9db0677dfb3200f737d809bcfa6ef4">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_07ba1577b8412fc8641ba1b74a398bdbb9e50c65\classes.dex" />
     </item>
     <item
@@ -72,6 +72,15 @@
         revision="24.0.3"
         sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_1880f32a2dedf60fdb2bbb417403306920444eee\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.2.2\285cb9c666f0f0f3dd8a1be04e1f457eb7b15113\jackson-annotations-2.2.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-annotations-2.2.2_a155d2913060458dd6611653d6c278eb257de7a5\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -219,6 +228,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-android\2.5.0\7d0473896b3b10b23a2f9812fec4316dff8afdd\firebase-client-android-2.5.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="07d0473896b3b10b23a2f9812fec4316dff8afdd">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\firebase-client-android-2.5.0_22d704af64e7e63332aa3b1ea38b28b848360aef\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
         jumboMode="true"
         optimize="true"
@@ -228,12 +246,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.firebase\tubesock\0.0.12\6ec0bbd3e161a73ed672284b587fd32309a86d7a\tubesock-0.0.12.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="6ec0bbd3e161a73ed672284b587fd32309a86d7a">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\tubesock-0.0.12_fbd722e27b9e9093a06b98462f53b368ebc87b19\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.14.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="42a3ae86dd3ae2876d3e95c2e6e104ae57a50a65">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.14.1_7e83702cab4801f702b1944a3c1def417556194c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-jvm\2.5.0\c0af904657634f7ab9cc21e75d80250570033321\firebase-client-jvm-2.5.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c0af904657634f7ab9cc21e75d80250570033321">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\firebase-client-jvm-2.5.0_4f99e87da6515e58563a772bb9ec102186e4d3f3\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -282,12 +318,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-core-2.2.2_823468218d066663a1ec11cb9f564500efb7f33f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_4f64d78977bf0836ec666c85f0778d6f13d9b972\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.2.2\3c8f6018eaa72d43b261181e801e6f8676c16ef6\jackson-databind-2.2.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-databind-2.2.2_5e824781d9e13c5ce898bfd3a4b61a5e99ce86f2\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -367,7 +421,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="e69b3c5deebcc25bb7797f141700c856f95bc992">
+        sha1="55108a7595ecdde7f6165878f18790ec4f5452b9">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_8b56214e8070e5f5edd27a25e2b79fc4e05c6c07\classes.dex" />
     </item>
     <item

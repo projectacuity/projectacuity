@@ -22,23 +22,22 @@ public class WelcomeActivity extends AppCompatActivity {
         SignUpView = (TextView) findViewById(R.id.link_to_sign_up);
         SignInView = (Button) findViewById(R.id.sign_in_button);
         SignUpView.setOnClickListener(new View.OnClickListener(){
-            Intent intent1;
+            Intent intent;
             @Override
             public void onClick(View view) {
-                intent1=new Intent(WelcomeActivity.this,SignUpActivity.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent1);
-                finish();
+                intent=new Intent(WelcomeActivity.this,SignUpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
         });
         SignInView.setOnClickListener(new View.OnClickListener() {
-            Intent intent2;
+            Intent intent;
             @Override
             public void onClick(View v) {
-                intent2=new Intent(getApplicationContext(),SignInActivity.class);
-                startActivity(intent2);
-                finish();
+                intent=new Intent(getApplicationContext(),SignInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
