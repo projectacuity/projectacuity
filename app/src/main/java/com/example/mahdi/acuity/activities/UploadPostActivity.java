@@ -30,6 +30,7 @@ import com.firebase.client.Firebase;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -93,44 +94,33 @@ public class UploadPostActivity extends AppCompatActivity {
         // Disable button so there are no multi-posts
         Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show();
 
-        // [START single_value_read]
         final String userId = mAuth.getCurrentUser().getUid();
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user value
-                        User user = dataSnapshot.getValue(User.class);
+        // [START single_value_read]
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                if (user == null) {
+                    // User is null, error out
+                    Toast.makeText(getApplicationContext(),
+                            "Error: could not fetch user.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Write new post
+                    writeNewPost(userId, user.getUsername(), user.getPhotoUrl(), imgUrl, title);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
-                        // [START_EXCLUDE]
-                        if (user == null) {
-                            // User is null, error out
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: could not fetch user.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Write new post
-                            writeNewPost(userId, imgUrl, title);
-                        }
-
-                        // Finish this Activity, back to the stream
-                        finish();
-                        // [END_EXCLUDE]
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END single_value_read]
     }
-    private void writeNewPost(String userId, String imgUrl, String title) {
+    private void writeNewPost(String userId, String username, String userPhoto, String imgUrl, String title) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, imgUrl, title);
+        Post post = new Post(userId, username, userPhoto, imgUrl, title);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -138,27 +128,9 @@ public class UploadPostActivity extends AppCompatActivity {
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
+        finish();
     }
-//
-//    private void attempt_update(){
-//        title = mtxt.getText().toString();
-//        if(image_uploaded && title.length()>0){
-//            upload_post();
-//            Intent intent = new Intent(this,UserProfileActivity.class);
-//            startActivity(intent);
-//        }
-//    }
-//
-//    private void upload_post(){
-//        Firebase.setAndroidContext(this);
-//        mrootref = new Firebase("https://projectacuity.firebaseio.com/posts");
-//        Firebase childref = mrootref.child("000" + title);
-//        Firebase titleref = childref.child("title");
-//        titleref.setValue(title);
-//        Firebase uriref = childref.child("uri");
-//        uriref.setValue(imgurl);
-//    }
-//
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -167,7 +139,6 @@ public class UploadPostActivity extends AppCompatActivity {
             mSubmitButton.setVisibility(View.VISIBLE);
 
             Uri uri = data.getData();
-            Log.i("hellobla",UUID.randomUUID().toString());
             mProgdial.setMessage("Uploading photo...");
             mProgdial.show();
             StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
@@ -178,11 +149,9 @@ public class UploadPostActivity extends AppCompatActivity {
                     mProgdial.dismiss();
 
                     image_uploaded = true;
-                    StorageReference ref = taskSnapshot.getStorage();
+                    imgUrl = taskSnapshot.getDownloadUrl().toString();
 
-                    imgUrl = ref.toString();
-                    Log.i("hellobla",imgUrl);
-                    Glide.with(getApplicationContext()).using(new FirebaseImageLoader()).load(ref).centerCrop().into(mView);
+                    Glide.with(getApplicationContext()).load(imgUrl).centerCrop().into(mView);
 
                     Toast.makeText(UploadPostActivity.this,"Uploading finished !",Toast.LENGTH_LONG).show();
                 }
@@ -199,8 +168,12 @@ public class UploadPostActivity extends AppCompatActivity {
                 R.layout.list_dialog);
         arrayAdapter.add("Camera");
         arrayAdapter.add("Gallery");
-        arrayAdapter.add("Cancel");
-
+        builderSingle.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
         builderSingle.setAdapter(
                 arrayAdapter,
                 new DialogInterface.OnClickListener() {

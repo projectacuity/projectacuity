@@ -39,6 +39,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToPost(Post post, View.OnClickListener likeClickListener, View.OnClickListener dislikeClickListener) {
+        authorView.setText(post.author);
         commentView.setText(post.comment);
         numlikesView.setText(String.valueOf(post.likesCount));
         numdislikesView.setText(String.valueOf(post.dislikesCount));

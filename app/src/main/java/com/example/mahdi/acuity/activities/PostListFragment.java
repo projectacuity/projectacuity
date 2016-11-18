@@ -42,11 +42,12 @@ public abstract class PostListFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
-    public PostListFragment() {}
+    public PostListFragment() {
+    }
 
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -72,8 +73,8 @@ public abstract class PostListFragment extends Fragment {
             @Override
             protected void populateViewHolder(final PostViewHolder viewHolder, final Post model, final int position) {
                 final DatabaseReference postRef = getRef(position);
-                setPostPhoto(viewHolder,model.imageUrl);
-                setPosterInfo(viewHolder,model.uid);
+                setPostPhoto(viewHolder, model.imageUrl);
+                setPosterPhoto(viewHolder, model.authorUrl);
 
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.likes.containsKey(getUid())) {
@@ -115,29 +116,19 @@ public abstract class PostListFragment extends Fragment {
         };
         mRecycler.setAdapter(mAdapter);
     }
+
     private void setPostPhoto(final PostViewHolder viewHolder, String url) {
         final Context contextPostPhoto = viewHolder.postPhotoView.getContext();
-        StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-        Glide.with(contextPostPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(viewHolder.postPhotoView);
+        Glide.with(contextPostPhoto).load(url).centerCrop().into(viewHolder.postPhotoView);
     }
-    private void setPosterInfo(final PostViewHolder viewHolder, String uid) {
+
+    private void setPosterPhoto(final PostViewHolder viewHolder, String authorUrl) {
         final Context contextUserPhoto = viewHolder.userPhotoView.getContext();
-        final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user=dataSnapshot.getValue(User.class);
-                viewHolder.authorView.setText(user.getUsername());
-                if (user.getPhotoUrl()!=null) {
-                    StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
-                    Glide.with(contextUserPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(viewHolder.userPhotoView);
-                }
-                }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        if (authorUrl != null) {
+            Glide.with(contextUserPhoto).load(authorUrl).centerCrop().into(viewHolder.userPhotoView);
+        }
     }
+
     // [START post_likess_transaction]
     private void onLikeClicked(DatabaseReference postRef) {
         postRef.runTransaction(new Transaction.Handler() {
@@ -152,8 +143,7 @@ public abstract class PostListFragment extends Fragment {
                     p.likesCount = p.likesCount - 1;
                     p.likes.remove(getUid());
                 } else if (!p.likes.containsKey(getUid())) {
-                    if (p.dislikes.containsKey(getUid()))
-                    {
+                    if (p.dislikes.containsKey(getUid())) {
                         p.dislikesCount = p.dislikesCount - 1;
                         p.dislikes.remove(getUid());
                     }
@@ -173,6 +163,7 @@ public abstract class PostListFragment extends Fragment {
             }
         });
     }
+
     // [END post_likes_transaction]
     // [START post_dislikes_transaction]
     private void onDislikeClicked(DatabaseReference postRef) {

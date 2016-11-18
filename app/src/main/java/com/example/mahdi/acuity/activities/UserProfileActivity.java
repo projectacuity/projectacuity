@@ -61,8 +61,7 @@ public class UserProfileActivity extends BaseDrawerActivity {
                 User user=dataSnapshot.getValue(User.class);
                 userName.setText(user.getUsername());
                 if (user.getPhotoUrl()!=null) {
-                    StorageReference postPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
-                    Glide.with(contextUserPhoto).using(new FirebaseImageLoader()).load(postPhotoReference).centerCrop().into(ivUserProfilePhoto);
+                    Glide.with(contextUserPhoto).load(user.getPhotoUrl()).centerCrop().into(ivUserProfilePhoto);
                 }
                 }
             @Override

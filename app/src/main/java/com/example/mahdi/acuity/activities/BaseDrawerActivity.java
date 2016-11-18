@@ -88,7 +88,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),UploadPostActivity.class);
                 startActivity(intent);
-//                takePhotoAction();
             }
         });
 
@@ -184,34 +183,12 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
                 User user=dataSnapshot.getValue(User.class);
                 userName.setText(user.getUsername());
                 if (user.getPhotoUrl()!=null) {
-                    StorageReference userPhotoReference = FirebaseStorage.getInstance().getReferenceFromUrl(user.getPhotoUrl());
-                    Glide.with(userProfilePhoto.getContext()).using(new FirebaseImageLoader()).load(userPhotoReference).centerCrop().into(userProfilePhoto);
+                    Glide.with(userProfilePhoto.getContext()).load(user.getPhotoUrl()).centerCrop().into(userProfilePhoto);
                 }
                 }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
-    protected void takePhotoAction() {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-        builderSingle.setIcon(R.drawable.add_a_photo_blue);
-        builderSingle.setTitle("Add photo with");
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                R.layout.list_dialog);
-        arrayAdapter.add("Camera");
-        arrayAdapter.add("Gallery");
-        arrayAdapter.add("Cancel");
-
-        builderSingle.setAdapter(
-                arrayAdapter,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builderSingle.show();
     }
     }

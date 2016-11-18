@@ -3,6 +3,7 @@ package com.example.mahdi.acuity.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -47,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private ProgressDialog mProgress;
+    final String defaultUserPhoto = "https://firebasestorage.googleapis.com/v0/b/projectacuity.appspot.com/o/photos%2Fphoto.png?alt=media&token=f7613099-8b08-4ef2-8624-c4503db5941d";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +76,22 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(mNickname.getText().toString()).build();
-                    user.updateProfile(profileUpdates);
-                    session.createLoginSession(user.getDisplayName(),user.getEmail());
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    mProgress.dismiss();
+                            .setDisplayName(mNickname.getText().toString())
+                            .setPhotoUri(Uri.parse(defaultUserPhoto))
+                            .build();
+                    user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            mProgress.dismiss();
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
                 }
             }
         };
@@ -168,12 +177,14 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private void onAuthSuccess(FirebaseUser firebaseUser) {
         String nickname = mNickname.getText().toString();
         String email = mEmailView.getText().toString();
-        writeNewUser(firebaseUser.getUid(), nickname, email);
+        writeNewUser(firebaseUser.getUid(), nickname, email, defaultUserPhoto);
     }
 
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
-        mDatabase.child("users").child(userId).setValue(user);
+    private void writeNewUser(String userId, String name, String email, String photoUrl) {
+        User user = new User(name, email, photoUrl);
+        Map<String, Object> userValues = user.toMap();
+        mDatabase.child("users").child(userId).setValue(userValues);
+        session.createLoginSession(user.getUsername(),user.getEmail());
     }
 
     @Override
