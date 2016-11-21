@@ -36,7 +36,6 @@ import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "SignUpActivity";
-    SessionManager session;
     private TextInputEditText mEmailView;
     private TextInputEditText mPasswordView;
     private TextInputEditText mNickname;
@@ -56,7 +55,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        session = new SessionManager(getApplicationContext());
         mEmailView = (TextInputEditText) findViewById(R.id.email);
         mNickname = (TextInputEditText) findViewById(R.id.nickname);
         mPasswordView = (TextInputEditText) findViewById(R.id.password);
@@ -66,7 +64,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         mTextNicknameView = (TextInputLayout) findViewById(R.id.nickname_layout);
         mTextPassConfirm = (TextInputLayout) findViewById(R.id.password_confirm_layout);
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Signing up...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
@@ -77,42 +74,40 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(mNickname.getText().toString())
-                            .setPhotoUri(Uri.parse(defaultUserPhoto))
-                            .build();
-                    user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            mProgress.dismiss();
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-
+                if (user != null) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mProgress.dismiss();
+                    startActivity(intent);
+                    finish();
                 }
+
             }
         };
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
-        if(mAuthListener != null){
+        if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
         }
+        mProgress.setMessage("Signing up...");
         mProgress.show();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -184,7 +179,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
         User user = new User(name, email, photoUrl);
         Map<String, Object> userValues = user.toMap();
         mDatabase.child("users").child(userId).setValue(userValues);
-        session.createLoginSession(user.getUsername(),user.getEmail());
     }
 
     @Override

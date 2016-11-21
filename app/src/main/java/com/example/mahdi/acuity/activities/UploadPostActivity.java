@@ -7,18 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,11 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
 import com.example.mahdi.acuity.models.Post;
 import com.example.mahdi.acuity.models.User;
-import com.firebase.client.Firebase;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,9 +51,6 @@ public class UploadPostActivity extends AppCompatActivity {
     private android.support.v7.widget.CardView cardView;
     private String imgUrl;
 
-    private boolean image_uploaded = false;
-
-    private Button btnupload;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +61,8 @@ public class UploadPostActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
         mProgdial = new ProgressDialog(this);
+        mProgdial.setCancelable(false);
+        mProgdial.setIndeterminate(true);
         mView = (ImageView) findViewById(R.id.postPhoto);
         mTxt = (TextInputEditText) findViewById(R.id.post_title);
         cardView = (CardView) findViewById(R.id.card_view);
@@ -88,15 +79,21 @@ public class UploadPostActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     private void submitPost() {
         final String title = mTxt.getText().toString();
 
-        // Disable button so there are no multi-posts
-        Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show();
-
         final String userId = mAuth.getCurrentUser().getUid();
-        // [START single_value_read]
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
@@ -114,11 +111,12 @@ public class UploadPostActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+        Toast.makeText(getApplicationContext(),"Uploading post finished !",Toast.LENGTH_LONG).show();
+        finish();
 
     }
     private void writeNewPost(String userId, String username, String userPhoto, String imgUrl, String title) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
+
         String key = mDatabase.child("posts").push().getKey();
         Post post = new Post(userId, username, userPhoto, imgUrl, title);
         Map<String, Object> postValues = post.toMap();
@@ -128,32 +126,30 @@ public class UploadPostActivity extends AppCompatActivity {
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-        finish();
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if((requestCode == camera_intent || requestCode == gal_intent) && resultCode == RESULT_OK){
-            cardView.setVisibility(View.VISIBLE);
-            mSubmitButton.setVisibility(View.VISIBLE);
 
             Uri uri = data.getData();
             mProgdial.setMessage("Uploading photo...");
             mProgdial.show();
+
             StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
                     .child(UUID.randomUUID().toString());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgdial.dismiss();
-
-                    image_uploaded = true;
                     imgUrl = taskSnapshot.getDownloadUrl().toString();
-
+                    cardView.setVisibility(View.VISIBLE);
                     Glide.with(getApplicationContext()).load(imgUrl).centerCrop().into(mView);
-
-                    Toast.makeText(UploadPostActivity.this,"Uploading finished !",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Uploading photo finished !",Toast.LENGTH_LONG).show();
+                    mTxt.requestFocus();
+                    mSubmitButton.setVisibility(View.VISIBLE);
                 }
             });
 
@@ -161,7 +157,8 @@ public class UploadPostActivity extends AppCompatActivity {
     }
     protected void takePhotoAction() {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-        builderSingle.setIcon(R.drawable.add_a_photo_blue);
+        builderSingle.setIcon(R.drawable.add_a_photo_dark);
+        builderSingle.setCancelable(false);
         builderSingle.setTitle("Add photo with");
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -183,13 +180,10 @@ public class UploadPostActivity extends AppCompatActivity {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent,camera_intent);
                         }
-                        else if (arrayAdapter.getItem(which)=="Gallery") {
+                        else {
                             Intent intent = new Intent(Intent.ACTION_PICK);
                             intent.setType("image/*");
                             startActivityForResult(intent,gal_intent);
-                        }
-                        else {
-                            finish();
                         }
                     }
                 });

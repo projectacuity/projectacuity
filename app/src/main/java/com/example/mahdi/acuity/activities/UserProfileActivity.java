@@ -47,15 +47,21 @@ public class UserProfileActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_user_profile);
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
         userName = (TextView)findViewById(R.id.userName);
-        setUserInfo();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.my_feed, new MyPostsFragment());
         ft.commit();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUserInfo();
+    }
+
     private void setUserInfo() {
         final Context contextUserPhoto = ivUserProfilePhoto.getContext();
         final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);

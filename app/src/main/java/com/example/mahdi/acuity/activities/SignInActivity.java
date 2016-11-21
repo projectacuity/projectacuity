@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -20,20 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.regex.Pattern;
 
 
 public class SignInActivity extends AppCompatActivity implements TextView.OnEditorActionListener, View.OnClickListener {
     private static final String TAG = "SignInActivity";
-    SessionManager session;
     private TextInputEditText mEmailView;
     private TextInputEditText mPasswordView;
     private TextInputLayout mTextPassView;
@@ -48,13 +44,11 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        session = new SessionManager(getApplicationContext());
         mEmailView = (TextInputEditText) findViewById(R.id.email);
         mPasswordView = (TextInputEditText) findViewById(R.id.password);
         mTextPassView = (TextInputLayout) findViewById(R.id.password_layout);
         mTextEmailView = (TextInputLayout) findViewById(R.id.email_layout);
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Signing in...");
         mProgress.setCancelable(false);
         mProgress.setIndeterminate(true);
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
@@ -65,11 +59,13 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){
-                    session.createLoginSession(user.getDisplayName(),user.getEmail());
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mProgress.dismiss();
                     startActivity(intent);
                     finish();
-                    mProgress.dismiss();
                 }
             }
         };
@@ -92,6 +88,7 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
         if (!validateForm()) {
             return;
         }
+        mProgress.setMessage("Signing in...");
         mProgress.show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

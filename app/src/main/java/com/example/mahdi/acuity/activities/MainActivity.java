@@ -4,15 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 
 import com.example.mahdi.acuity.R;
 
 
-
 public class MainActivity extends BaseDrawerActivity {
-
-
 
 
     @Override

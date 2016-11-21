@@ -27,7 +27,7 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/account_settings"
-            android:title="Manage account" />
+            android:title="Manage my account" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/signout"

@@ -52,7 +52,10 @@
         <activity
             android:name=".activities.UploadPostActivity"
             android:label="Add a post">
-
+        </activity>
+        <activity android:name=".activities.SettingsActivity"
+            android:label="Manage my account"
+            android:theme="@style/AppTheme.ActionBar">
         </activity>
     </application>
 

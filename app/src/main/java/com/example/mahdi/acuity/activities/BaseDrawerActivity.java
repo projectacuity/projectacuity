@@ -44,7 +44,6 @@ import com.squareup.picasso.Picasso;
 
 public class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     protected static final String TAG = "BaseDrawerActivity";
-    protected SessionManager session;
     protected DrawerLayout drawerLayout;
     protected NavigationView vNavigation;
     protected android.support.v7.widget.Toolbar toolbar;
@@ -65,7 +64,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         super.setContentView(R.layout.activity_drawer);
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.flContentRoot);
         LayoutInflater.from(this).inflate(layoutResID, viewGroup, true);
-        session = new SessionManager(this);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         vNavigation = (NavigationView) findViewById(R.id.vNavigation);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -90,7 +88,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
                 startActivity(intent);
             }
         });
-
     }
     public void signOut() {
         new AlertDialog.Builder(this)
@@ -106,7 +103,9 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
                             @Override
                             public void run() {
                                 mAuth.signOut();
-                                session.logoutUser();
+                                Intent intent= new Intent(getApplicationContext(),SplashActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                                 finish();
                                 mProgress.dismiss();
                             }
@@ -148,12 +147,20 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-        } else if (id == R.id.nav_account) {
-            Intent Profile = new Intent(getApplicationContext(),UserProfileActivity.class);
-            startActivity(Profile);
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_account) {
+            Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_interest) {
+        }
+        else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_logout) {
             signOut();
         }
 
@@ -168,7 +175,7 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
                 drawerLayout.closeDrawer(Gravity.LEFT);
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
         userName = (TextView) headerView.findViewById(R.id.userName);
@@ -177,13 +184,13 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
     }
     private void setNavHeaderInfo() {
         mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
                 userName.setText(user.getUsername());
                 if (user.getPhotoUrl()!=null) {
-                    Glide.with(userProfilePhoto.getContext()).load(user.getPhotoUrl()).centerCrop().into(userProfilePhoto);
+                    Glide.with(getApplicationContext()).load(user.getPhotoUrl()).centerCrop().into(userProfilePhoto);
                 }
                 }
             @Override
