@@ -1,10 +1,13 @@
 package com.example.mahdi.acuity.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -20,17 +23,27 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
+import com.example.mahdi.acuity.models.Post;
 import com.example.mahdi.acuity.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 
@@ -47,12 +60,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private LinearLayout emailClick;
     private LinearLayout passClick;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private StorageReference mStorage;
+    private DatabaseReference mDatabase;
+    private ProgressDialog mProgdial;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mProgdial = new ProgressDialog(this);
+        mProgdial.setCancelable(false);
+        mProgdial.setIndeterminate(true);
         userPhoto = (ImageView) findViewById(R.id.add_photo);
         userNickname = (TextView) findViewById(R.id.my_nickname);
         userEmail = (TextView) findViewById(R.id.my_email);
@@ -65,6 +85,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         nicknameClick.setOnClickListener(this);
         passClick.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -91,8 +113,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                userNickname.setText(user.getUsername());
-                userEmail.setText(user.getEmail());
+                if (user.getUsername()!=null) {
+                    userNickname.setText(user.getUsername());
+                }
+                if (user.getEmail()!=null) {
+                    userEmail.setText(user.getEmail());
+                }
                 if (user.getPhotoUrl() != null) {
                     Glide.with(contextUserPhoto).load(user.getPhotoUrl()).centerCrop().into(userPhoto);
                 }
@@ -131,6 +157,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             if (!validateNickname(mNickname, mTextNicknameView)) {
                                 return;
                             } else {
+                                String nickname = mNickname.getText().toString();
+                                updateNickname(nickname);
+                                Toast.makeText(getApplicationContext(),"Nickname is updated!",Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }
                         }
@@ -167,6 +196,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             if (!validateEmail(mEmailView, mTextEmailView)) {
                                 return;
                             } else {
+                                String email = mEmailView.getText().toString();
+                                updateMail(email);
                                 dialog.dismiss();
                             }
                         }
@@ -204,6 +235,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             if (!validatePass(mPasswordView, mTextPassView)) {
                                 return;
                             } else {
+                                String pass = mPasswordView.getText().toString();
+                                updatePass(pass);
                                 dialog.dismiss();
                             }
                         }
@@ -255,6 +288,132 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         builderSingle.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if((requestCode == camera_intent || requestCode == gal_intent) && resultCode == RESULT_OK){
+
+            Uri uri = data.getData();
+            mProgdial.setMessage("Uploading photo...");
+            mProgdial.show();
+            StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
+                    .child(UUID.randomUUID().toString());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    mProgdial.dismiss();
+                    String imgUrl = taskSnapshot.getDownloadUrl().toString();
+                    updatePhoto(imgUrl);
+                    Toast.makeText(getApplicationContext(),"Photo is updated!",Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+    }
+
+    private void updatePhoto(final String imgUrl) {
+        mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("photoUrl").setValue(imgUrl);
+        mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String postId = postSnapshot.getKey();
+                    mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).child(postId).child("authorUrl").setValue(imgUrl);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mDatabase.child("posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String postId = postSnapshot.getKey();
+                    Post post = postSnapshot.getValue(Post.class);
+                    if ((post.uid).equals(mAuth.getCurrentUser().getUid())) {
+                        mDatabase.child("posts").child(postId).child("authorUrl").setValue(imgUrl);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void updateNickname(final String nickname) {
+        mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("username").setValue(nickname);
+        mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String postId = postSnapshot.getKey();
+                    mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).child(postId).child("author").setValue(nickname);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mDatabase.child("posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String postId = postSnapshot.getKey();
+                    Post post = postSnapshot.getValue(Post.class);
+                    if ((post.uid).equals(mAuth.getCurrentUser().getUid())) {
+                        mDatabase.child("posts").child(postId).child("author").setValue(nickname);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void updateMail(final String email) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.i("nizar4",email);
+        user.updateEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("email").setValue(email);
+                            Toast.makeText(getApplicationContext(),"Email is updated!",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Failed to update email!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                });
+    }
+    private void updatePass(final String pass) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.updatePassword(pass)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),"Password is updated!",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Failed to update password!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                });
+    }
     private boolean validateEmail(TextInputEditText mEmailView, TextInputLayout mTextEmailView) {
         mTextEmailView.setError(null);
         String email = mEmailView.getText().toString();

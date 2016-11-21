@@ -40,9 +40,6 @@
             android:theme="@style/AppTheme.ActionBar">
         </activity>
         <activity android:name=".activities.BaseDrawerActivity">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".activities.MainActivity">

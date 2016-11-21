@@ -53,4 +53,7 @@ public class User {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+    public int getPostsCount() {
+        return postsCount;
+    }
 }

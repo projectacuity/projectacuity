@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +41,7 @@ public class UserProfileActivity extends BaseDrawerActivity {
 
     ImageView ivUserProfilePhoto;
     TextView userName;
+    LinearLayout manage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ public class UserProfileActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_user_profile);
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
         userName = (TextView)findViewById(R.id.userName);
+        manage = (LinearLayout) findViewById(R.id.btnFollow);
+        manage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.my_feed, new MyPostsFragment());
         ft.commit();
@@ -65,7 +75,9 @@ public class UserProfileActivity extends BaseDrawerActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
-                userName.setText(user.getUsername());
+                if (user.getUsername()!=null) {
+                    userName.setText(user.getUsername());
+                }
                 if (user.getPhotoUrl()!=null) {
                     Glide.with(contextUserPhoto).load(user.getPhotoUrl()).centerCrop().into(ivUserProfilePhoto);
                 }

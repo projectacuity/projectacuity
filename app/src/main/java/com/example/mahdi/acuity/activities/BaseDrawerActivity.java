@@ -124,22 +124,7 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
             super.onBackPressed();
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.nav, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -153,8 +138,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         else if (id == R.id.nav_account) {
             Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.nav_interest) {
         }
         else if (id == R.id.nav_settings) {
             Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);

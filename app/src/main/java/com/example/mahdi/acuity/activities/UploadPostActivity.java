@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,12 +24,16 @@ import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
 import com.example.mahdi.acuity.models.Post;
 import com.example.mahdi.acuity.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -115,7 +121,7 @@ public class UploadPostActivity extends AppCompatActivity {
         finish();
 
     }
-    private void writeNewPost(String userId, String username, String userPhoto, String imgUrl, String title) {
+    private void writeNewPost(final String userId, String username, String userPhoto, String imgUrl, String title) {
 
         String key = mDatabase.child("posts").push().getKey();
         Post post = new Post(userId, username, userPhoto, imgUrl, title);
@@ -126,7 +132,6 @@ public class UploadPostActivity extends AppCompatActivity {
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-
     }
 
     @Override
