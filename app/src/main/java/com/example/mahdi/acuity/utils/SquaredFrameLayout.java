@@ -1,4 +1,4 @@
-package com.example.mahdi.acuity.views;
+package com.example.mahdi.acuity.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

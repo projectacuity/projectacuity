@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mahdi.acuity">
 
+    <uses-sdk tools:overrideLibrary="com.firebase.ui.auth, com.firebase.ui" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-sdk tools:overrideLibrary="com.firebase.ui.auth, com.firebase.ui"/>
-
 
     <application
         android:allowBackup="true"
@@ -23,7 +22,7 @@
             android:name=".activities.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".activities.WelcomeActivity"
-            android:theme="@style/AppTheme.ActionBar"/>
+            android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -37,22 +36,31 @@
             android:name=".activities.SignInActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".activities.WelcomeActivity"
-            android:theme="@style/AppTheme.ActionBar">
-        </activity>
-        <activity android:name=".activities.BaseDrawerActivity">
-        </activity>
+            android:theme="@style/AppTheme.ActionBar"></activity>
+        <activity android:name=".activities.BaseDrawerActivity"></activity>
         <activity
-            android:name=".activities.MainActivity">
-        </activity>
+            android:name=".activities.MainActivity"
+            android:label="Home"></activity>
         <activity
-            android:name=".activities.UserProfileActivity"/>
+            android:name=".activities.UserProfileActivity"
+            android:label="My account" />
         <activity
             android:name=".activities.UploadPostActivity"
-            android:label="Add a post">
-        </activity>
-        <activity android:name=".activities.SettingsActivity"
+            android:label="Add a post"></activity>
+        <activity
+            android:name=".activities.SettingsActivity"
             android:label="Manage my account"
-            android:theme="@style/AppTheme.ActionBar">
+            android:theme="@style/AppTheme.ActionBar"></activity>
+        <activity android:name=".activities.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".activities.IntroActivity">
         </activity>
     </application>
 

@@ -3,38 +3,23 @@ package com.example.mahdi.acuity.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.adpaters.PostViewHolder;
-import com.example.mahdi.acuity.models.Post;
+import com.example.mahdi.acuity.activities.fragments.MyPostsFragment;
 import com.example.mahdi.acuity.models.User;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class UserProfileActivity extends BaseDrawerActivity {
     private static final String TAG = "UserProfileActivity";
@@ -42,6 +27,10 @@ public class UserProfileActivity extends BaseDrawerActivity {
     ImageView ivUserProfilePhoto;
     TextView userName;
     LinearLayout manage;
+    String uid;
+    private DatabaseReference mDatabase;
+    DatabaseReference mUserRef;
+    ValueEventListener userListner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +38,21 @@ public class UserProfileActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_user_profile);
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
         userName = (TextView)findViewById(R.id.userName);
-        manage = (LinearLayout) findViewById(R.id.btnFollow);
+        manage = (LinearLayout) findViewById(R.id.btnManage);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Intent intent=getIntent();
+        if (intent.getStringExtra("uid")==null) {
+            manage.setVisibility(View.VISIBLE);
+            uid=mAuth.getCurrentUser().getUid();
+        }
+        else if (intent.getStringExtra("uid").equals(mAuth.getCurrentUser().getUid())) {
+            manage.setVisibility(View.VISIBLE);
+            uid=intent.getStringExtra("uid");
+        }
+        else {
+            uid=intent.getStringExtra("uid");
+        }
+        mUserRef = mDatabase.child("users").child(uid);
         manage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +61,7 @@ public class UserProfileActivity extends BaseDrawerActivity {
             }
         });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.my_feed, new MyPostsFragment());
+        ft.replace(R.id.my_feed, new MyPostsFragment(uid));
         ft.commit();
     }
 
@@ -70,8 +73,7 @@ public class UserProfileActivity extends BaseDrawerActivity {
 
     private void setUserInfo() {
         final Context contextUserPhoto = ivUserProfilePhoto.getContext();
-        final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
-        mUserRef.addValueEventListener(new ValueEventListener() {
+        userListner = mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
@@ -79,13 +81,21 @@ public class UserProfileActivity extends BaseDrawerActivity {
                     userName.setText(user.getUsername());
                 }
                 if (user.getPhotoUrl()!=null) {
-                    Glide.with(contextUserPhoto).load(user.getPhotoUrl()).centerCrop().into(ivUserProfilePhoto);
+                    Glide.with(contextUserPhoto).load(user.getPhotoUrl()).bitmapTransform(new CropCircleTransformation(contextUserPhoto)).into(ivUserProfilePhoto);
                 }
                 }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (userListner!=null) {
+            mUserRef.removeEventListener(userListner);
+        }
     }
 }
 

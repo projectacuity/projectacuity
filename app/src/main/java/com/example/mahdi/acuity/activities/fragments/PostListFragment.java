@@ -1,9 +1,12 @@
-package com.example.mahdi.acuity.activities;
+package com.example.mahdi.acuity.activities.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,11 +16,10 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
+import com.example.mahdi.acuity.activities.SplashActivity;
 import com.example.mahdi.acuity.adpaters.PostViewHolder;
 import com.example.mahdi.acuity.models.Post;
-import com.example.mahdi.acuity.models.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,13 +28,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import static com.example.mahdi.acuity.R.id.userProfilePhoto;
-import static com.facebook.FacebookSdk.getApplicationContext;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public abstract class PostListFragment extends Fragment {
 
@@ -41,6 +40,8 @@ public abstract class PostListFragment extends Fragment {
     private FirebaseRecyclerAdapter<Post, PostViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+    private FirebaseAuth mAuth;
+    private boolean myAccount;
 
     public PostListFragment() {
     }
@@ -51,7 +52,7 @@ public abstract class PostListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        mAuth = FirebaseAuth.getInstance();
         mRecycler = (RecyclerView) rootView.findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
 
@@ -76,40 +77,53 @@ public abstract class PostListFragment extends Fragment {
                 setPostPhoto(viewHolder, model.imageUrl);
                 setPosterPhoto(viewHolder, model.authorUrl);
 
-                // Determine if the current user has liked this post and set UI accordingly
                 if (model.likes.containsKey(getUid())) {
-                    viewHolder.likesView.setImageResource(R.drawable.thumb_up2);
+                    viewHolder.likesView.setImageResource(R.drawable.thumb_up_blue);
                 } else {
                     viewHolder.likesView.setImageResource(R.drawable.thumb_up);
                 }
                 if (model.dislikes.containsKey(getUid())) {
-                    viewHolder.dislikesView.setImageResource(R.drawable.thumb_down2);
+                    viewHolder.dislikesView.setImageResource(R.drawable.thumb_down_blue);
                 } else {
                     viewHolder.dislikesView.setImageResource(R.drawable.thumb_down);
                 }
 
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
+                if ((model.uid).equals(mAuth.getCurrentUser().getUid())) {
+                    myAccount=true;
+                }
+                else {
+                    myAccount=false;
+                }
+                final DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
+                final DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
                 viewHolder.bindToPost(model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
-                        DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
-
-                        // Run two transactions
                         onLikeClicked(globalPostRef);
                         onLikeClicked(userPostRef);
                     }
                 }, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
-                        DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
-
-                        // Run two transactions
                         onDislikeClicked(globalPostRef);
                         onDislikeClicked(userPostRef);
+                    }
+                }, getClick(model.uid), myAccount, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new AlertDialog.Builder(getActivity())
+                                .setIcon(R.drawable.alert)
+                                .setTitle("Delete post")
+                                .setMessage("Are you sure you want to delete this post?")
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        deletePost(globalPostRef, userPostRef, model.imageRef);
+                                    }
+                                })
+                                .setNegativeButton("CANCEL", null)
+                                .show();
                     }
                 });
             }
@@ -125,11 +139,10 @@ public abstract class PostListFragment extends Fragment {
     private void setPosterPhoto(final PostViewHolder viewHolder, String authorUrl) {
         final Context contextUserPhoto = viewHolder.userPhotoView.getContext();
         if (authorUrl != null) {
-            Glide.with(contextUserPhoto).load(authorUrl).centerCrop().into(viewHolder.userPhotoView);
+            Glide.with(contextUserPhoto).load(authorUrl).bitmapTransform(new CropCircleTransformation(contextUserPhoto)).into(viewHolder.userPhotoView);
         }
     }
 
-    // [START post_likess_transaction]
     private void onLikeClicked(DatabaseReference postRef) {
         postRef.runTransaction(new Transaction.Handler() {
             @Override
@@ -158,14 +171,10 @@ public abstract class PostListFragment extends Fragment {
             @Override
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
-                // Transaction completed
-                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
             }
         });
     }
 
-    // [END post_likes_transaction]
-    // [START post_dislikes_transaction]
     private void onDislikeClicked(DatabaseReference postRef) {
         postRef.runTransaction(new Transaction.Handler() {
             @Override
@@ -187,7 +196,6 @@ public abstract class PostListFragment extends Fragment {
                     p.dislikes.put(getUid(), true);
                 }
 
-                // Set value and report transaction success
                 mutableData.setValue(p);
                 return Transaction.success(mutableData);
             }
@@ -195,13 +203,17 @@ public abstract class PostListFragment extends Fragment {
             @Override
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
-                // Transaction completed
                 Log.d(TAG, "postTransaction:onComplete:" + databaseError);
             }
         });
     }
-    // [END post_dislikes_transaction]
 
+    public void deletePost(DatabaseReference globalPostRef, DatabaseReference userPostRef, String imgRef) {
+        globalPostRef.removeValue();
+        userPostRef.removeValue();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imgRef);
+        storageRef.delete();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -215,5 +227,6 @@ public abstract class PostListFragment extends Fragment {
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);
+    public abstract View.OnClickListener getClick(String uid);
 
 }

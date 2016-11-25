@@ -48,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private ProgressDialog mProgress;
-    final String defaultUserPhoto = "https://firebasestorage.googleapis.com/v0/b/projectacuity.appspot.com/o/photos%2Fphoto.png?alt=media&token=f7613099-8b08-4ef2-8624-c4503db5941d";
+    final String defaultUserPhoto = "https://firebasestorage.googleapis.com/v0/b/projectacuity.appspot.com/o/photos%2Faccount.png?alt=media&token=e5467a57-06e6-47f3-9aa4-4e33adbfd60c";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
                 if (user != null) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mProgress.dismiss();
                     startActivity(intent);
                     finish();
@@ -176,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     }
 
     private void writeNewUser(String userId, String name, String email, String photoUrl) {
-        User user = new User(name, email, photoUrl);
+        User user = new User(userId, name, email, photoUrl);
         Map<String, Object> userValues = user.toMap();
         mDatabase.child("users").child(userId).setValue(userValues);
     }

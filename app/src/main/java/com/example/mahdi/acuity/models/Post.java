@@ -11,6 +11,7 @@ public class Post {
     public String author;
     public String authorUrl;
     public String imageUrl;
+    public String imageRef;
     public String comment;
     public int likesCount =0;
     public int dislikesCount =0;
@@ -20,11 +21,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(String uid, String author, String authorUrl, String imageUrl, String comment) {
+    public Post(String uid, String author, String authorUrl, String imageUrl, String imageRef, String comment) {
         this.uid =uid;
         this.author = author;
         this.authorUrl = authorUrl;
         this.imageUrl = imageUrl;
+        this.imageRef = imageRef;
         this.comment = comment;
     }
 
@@ -35,6 +37,7 @@ public class Post {
         result.put("author", author);
         result.put("authorUrl",authorUrl);
         result.put("imageUrl", imageUrl);
+        result.put("imageRef", imageRef);
         result.put("comment",comment);
         result.put("likesCount", likesCount);
         result.put("dislikesCount", dislikesCount);

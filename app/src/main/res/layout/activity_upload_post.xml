@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            app:srcCompat="@drawable/ic_check"
+            app:srcCompat="@drawable/check"
             app:layout_anchorGravity="bottom|right|end"
             android:layout_margin="14dp"/>
     </FrameLayout>

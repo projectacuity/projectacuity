@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">Acuity</string>
 
-    <plurals name="likes_count">
-        <item quantity="one">%d like</item>
-        <item quantity="other">%d likes</item>
-    </plurals>
-    <string name="user_profile_photo">https://fb-s-d-a.akamaihd.net/h-ak-xta1/v/t1.0-1/p160x160/13769540_1218667208144354_7226613617115535173_n.jpg?oh=4bceab9c3af370a3e74a3d60977fa50a&amp;oe=58878FC0\&amp;__gda__=1490286520_7205c4edca5b2ee3745969ca2c557191</string>
+
     <string name="title_activity_nav">NavActivity</string>
 
     <string name="prompt_email">Email</string>
@@ -24,7 +20,7 @@
     <string name="title_activity_sign_up">Sign up for Acuity</string>
     <string name="title_activity_login">Sign in to Acuity</string>
     <string name="title_activity_main2">Acuity</string>
-    <string name="auth_failed">Sign up failed !</string>
+    <string name="auth_failed">Sign up failed!</string>
     <string name="error_invalid_nickname">This nickname is invalid</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -35,14 +31,20 @@
     <string name="error_pass_confirm">This password confirmation doesn\'t match your password</string>
     <string name="search_hint">Search for people</string>
 
-    <string name="interests_fragment">Hello interests fragment</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
 
-    <string name="my_account_fragment">Hello my account fragment</string>
+    <string name="slide_1_title">Contributing to make the world a better place</string>
 
-    <string name="home_fragment">Hello home fragment</string>
-    <string name="title_activity_scrolling">Home</string>
+    <string name="slide_2_title">If it catch your eye,\ntake a pic!</string>
 
-    <string name="title_activity_tabbed"></string>
+    <string name="slide_3_title">Up vote a good behavior</string>
+
+    <string name="slide_4_title">Down vote a bad act</string>
+
+    <string name="play_again">Play Again</string>
 
 
 </resources>

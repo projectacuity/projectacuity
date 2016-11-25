@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,16 +22,12 @@ import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
 import com.example.mahdi.acuity.models.Post;
 import com.example.mahdi.acuity.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -48,6 +42,7 @@ public class UploadPostActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
+    private ValueEventListener userListner;
     private FloatingActionButton mSubmitButton;
     private static final int gal_intent = 2;
     private static final int camera_intent = 1;
@@ -56,6 +51,7 @@ public class UploadPostActivity extends AppCompatActivity {
     private TextInputEditText mTxt;
     private android.support.v7.widget.CardView cardView;
     private String imgUrl;
+    private String imgRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,21 +91,28 @@ public class UploadPostActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (userListner!=null) {
+            mDatabase.removeEventListener(userListner);
+        }
+    }
+
     private void submitPost() {
         final String title = mTxt.getText().toString();
 
         final String userId = mAuth.getCurrentUser().getUid();
-        mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
+        userListner = mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
                 if (user == null) {
-                    // User is null, error out
                     Toast.makeText(getApplicationContext(),
                             "Error: could not fetch user.",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    // Write new post
                     writeNewPost(userId, user.getUsername(), user.getPhotoUrl(), imgUrl, title);
                 }
             }
@@ -117,14 +120,14 @@ public class UploadPostActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        Toast.makeText(getApplicationContext(),"Uploading post finished !",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Uploading post finished!",Toast.LENGTH_LONG).show();
         finish();
 
     }
     private void writeNewPost(final String userId, String username, String userPhoto, String imgUrl, String title) {
 
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, userPhoto, imgUrl, title);
+        Post post = new Post(userId, username, userPhoto, imgUrl, imgRef, title);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -149,10 +152,11 @@ public class UploadPostActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgdial.dismiss();
+                    imgRef = taskSnapshot.getStorage().toString();
                     imgUrl = taskSnapshot.getDownloadUrl().toString();
                     cardView.setVisibility(View.VISIBLE);
                     Glide.with(getApplicationContext()).load(imgUrl).centerCrop().into(mView);
-                    Toast.makeText(getApplicationContext(),"Uploading photo finished !",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Uploading photo finished!",Toast.LENGTH_LONG).show();
                     mTxt.requestFocus();
                     mSubmitButton.setVisibility(View.VISIBLE);
                 }
@@ -162,7 +166,7 @@ public class UploadPostActivity extends AppCompatActivity {
     }
     protected void takePhotoAction() {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-        builderSingle.setIcon(R.drawable.add_a_photo_dark);
+        builderSingle.setIcon(R.drawable.add_a_photo_black);
         builderSingle.setCancelable(false);
         builderSingle.setTitle("Add photo with");
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -181,7 +185,7 @@ public class UploadPostActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (arrayAdapter.getItem(which)=="Camera") {
+                        if ((arrayAdapter.getItem(which)).equals("Camera")) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent,camera_intent);
                         }

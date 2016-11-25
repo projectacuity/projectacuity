@@ -1,17 +1,15 @@
 package com.example.mahdi.acuity.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
 
 import com.example.mahdi.acuity.R;
+import com.example.mahdi.acuity.activities.fragments.MyFlopPostsFragment;
+import com.example.mahdi.acuity.activities.fragments.MyTopPostsFragment;
+import com.example.mahdi.acuity.activities.fragments.RecentPostsFragment;
 
 
 public class MainActivity extends BaseDrawerActivity {

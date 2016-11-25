@@ -19,7 +19,7 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/view_feed_toolbar" />
+                layout="@layout/toolbar"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"

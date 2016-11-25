@@ -25,6 +25,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public ImageView dislikesView;
     public TextView numlikesView;
     public TextView numdislikesView;
+    public ImageView deleteView;
 
     public PostViewHolder(View itemView) {
         super(itemView);
@@ -36,14 +37,24 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         dislikesView = (ImageView) itemView.findViewById(R.id.btnDislike);
         numlikesView = (TextView) itemView.findViewById(R.id.likesNb);
         numdislikesView = (TextView) itemView.findViewById(R.id.dislikesNb);
+        deleteView = (ImageView) itemView.findViewById(R.id.btnDelete);
     }
 
-    public void bindToPost(Post post, View.OnClickListener likeClickListener, View.OnClickListener dislikeClickListener) {
+    public void bindToPost(Post post, View.OnClickListener likeClickListener, View.OnClickListener dislikeClickListener, View.OnClickListener userClickListener, boolean myAccount, View.OnClickListener deleteClickListener) {
         authorView.setText(post.author);
-        commentView.setText(post.comment);
+        if (post.comment.equals("")) {
+            commentView.setVisibility(View.GONE);
+        }
+        else commentView.setText(post.comment);
         numlikesView.setText(String.valueOf(post.likesCount));
         numdislikesView.setText(String.valueOf(post.dislikesCount));
+        userPhotoView.setOnClickListener(userClickListener);
+        commentView.setOnClickListener(userClickListener);
         likesView.setOnClickListener(likeClickListener);
         dislikesView.setOnClickListener(dislikeClickListener);
+        if (myAccount) {
+            deleteView.setVisibility(View.VISIBLE);
+            deleteView.setOnClickListener(deleteClickListener);
+        }
     }
 }

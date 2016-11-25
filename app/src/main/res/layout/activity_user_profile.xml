@@ -14,16 +14,14 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll">
 
                 <LinearLayout
                     android:id="@+id/vUserProfileRoot"
@@ -53,14 +51,14 @@
                             android:id="@+id/userProfilePhoto"
                             android:layout_width="@dimen/user_profile_avatar_size"
                             android:layout_height="@dimen/user_profile_avatar_size"
-                            android:layout_marginBottom="5dp"/>
+                            android:layout_marginRight="10dp"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/userDetails"
                             android:layout_width="wrap_content"
-                            android:layout_height="88dp"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center">
 
@@ -71,27 +69,27 @@
                                 android:textColor="#ffffff"
                                 android:layout_gravity="center"
                                 android:textStyle="bold"
-                                android:textSize="18sp"/>
+                                android:textSize="20sp"/>
 
                             <LinearLayout
-                                android:id="@+id/btnFollow"
+                                android:id="@+id/btnManage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_marginTop="8dp"
-                                android:background="@android:color/holo_blue_bright"
-                                android:gravity="center">
+                                android:background="@drawable/shape_blue"
+                                android:gravity="center"
+                                android:visibility="gone">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:text="MANAGE MY ACCOUNT"
-                                        android:padding="6dp"
+                                        android:text="Manage my account"
+                                        android:padding="2dp"
                                         android:textStyle="bold"
-                                        android:textSize="12dp"
+                                        android:textSize="14dp"
                                         android:textColor="@android:color/white"/>
                                     </LinearLayout>
-
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -102,7 +100,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     app:elevation="@dimen/default_elevation"
-                    app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
                     />

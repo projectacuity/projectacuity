@@ -61,8 +61,6 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
                 if(user!=null){
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mProgress.dismiss();
                     startActivity(intent);
                     finish();

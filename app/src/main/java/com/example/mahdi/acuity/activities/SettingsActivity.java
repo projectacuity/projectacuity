@@ -1,16 +1,22 @@
 package com.example.mahdi.acuity.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -46,6 +52,8 @@ import com.google.firebase.storage.UploadTask;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -63,7 +71,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference mStorage;
     private DatabaseReference mDatabase;
+    private DatabaseReference mUserRef;
+    private DatabaseReference userPostRef;
+    private ValueEventListener userListner;
+    private ValueEventListener photoListner1;
+    private ValueEventListener photoListner2;
+    private ValueEventListener nameListner1;
+    private ValueEventListener nameListner2;
+    private DatabaseReference postRef;
     private ProgressDialog mProgdial;
+    private static final int REQUEST_PERMISSIONS = 1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,12 +105,35 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        userPostRef = mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid());
+        postRef = mDatabase.child("posts");
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         setUserInfo();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (userListner!=null) {
+            mUserRef.removeEventListener(userListner);
+        }
+        if (photoListner1!=null) {
+            userPostRef.removeEventListener(photoListner1);
+        }
+        if (nameListner1!=null) {
+            userPostRef.removeEventListener(nameListner1);
+        }
+        if (photoListner2!=null) {
+            postRef.removeEventListener(photoListner2);
+        }
+        if (nameListner2!=null) {
+            postRef.removeEventListener(nameListner2);
+        }
     }
 
     @Override
@@ -106,10 +147,76 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
+    private void allowPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale
+                            (this, Manifest.permission.CAMERA)) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        "Please Grant Permissions",
+                        Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions(SettingsActivity.this,
+                                        new String[]{Manifest.permission
+                                                .READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                        REQUEST_PERMISSIONS);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(SettingsActivity.this,
+                        new String[]{Manifest.permission
+                                .READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                        REQUEST_PERMISSIONS);
+            }
+        }
+        else {
+            takePhotoAction();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS: {
+                if ((grantResults.length > 0) && (grantResults[0] +
+                        grantResults[1]) == PackageManager.PERMISSION_GRANTED) {
+                    takePhotoAction();
+
+                } else {
+                    Snackbar.make(findViewById(android.R.id.content), "Enable Permissions from settings",
+                            Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                    intent.setData(Uri.parse("package:" + getPackageName()));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                                    startActivity(intent);
+                                }
+                            }).show();
+                }
+                return;
+            }
+        }
+    }
+
     private void setUserInfo() {
         final Context contextUserPhoto = userPhoto.getContext();
-        final DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
-        mUserRef.addValueEventListener(new ValueEventListener() {
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid());
+        userListner = mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -120,7 +227,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     userEmail.setText(user.getEmail());
                 }
                 if (user.getPhotoUrl() != null) {
-                    Glide.with(contextUserPhoto).load(user.getPhotoUrl()).centerCrop().into(userPhoto);
+                    Glide.with(contextUserPhoto).load(user.getPhotoUrl()).bitmapTransform(new CropCircleTransformation(contextUserPhoto)).into(userPhoto);
                 }
             }
 
@@ -133,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.photo_click) {
-            takePhotoAction();
+            allowPermissions();
         }
         else if (view.getId() == R.id.nickname_click) {
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -255,7 +362,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
     protected void takePhotoAction() {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-        builderSingle.setIcon(R.drawable.add_a_photo_dark);
+        builderSingle.setIcon(R.drawable.add_a_photo_black);
         builderSingle.setCancelable(false);
         builderSingle.setTitle("Add photo with");
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -296,9 +403,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             Uri uri = data.getData();
             mProgdial.setMessage("Uploading photo...");
             mProgdial.show();
-            StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
-                    .child(UUID.randomUUID().toString());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            StorageReference filepath = mStorage.child("photos")
+                    .child(mAuth.getCurrentUser().getUid()).child("profile").child(UUID.randomUUID().toString());
+            filepath.child(UUID.randomUUID().toString()).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgdial.dismiss();
@@ -313,12 +420,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     private void updatePhoto(final String imgUrl) {
         mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("photoUrl").setValue(imgUrl);
-        mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        photoListner1 = userPostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String postId = postSnapshot.getKey();
-                    mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).child(postId).child("authorUrl").setValue(imgUrl);
+                    userPostRef.child(postId).child("authorUrl").setValue(imgUrl);
                 }
             }
 
@@ -327,14 +434,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
-        mDatabase.child("posts").addValueEventListener(new ValueEventListener() {
+        photoListner2 = postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String postId = postSnapshot.getKey();
                     Post post = postSnapshot.getValue(Post.class);
                     if ((post.uid).equals(mAuth.getCurrentUser().getUid())) {
-                        mDatabase.child("posts").child(postId).child("authorUrl").setValue(imgUrl);
+                        postRef.child(postId).child("authorUrl").setValue(imgUrl);
                     }
                 }
 
@@ -348,12 +455,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
     private void updateNickname(final String nickname) {
         mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("username").setValue(nickname);
-        mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        nameListner1 = userPostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String postId = postSnapshot.getKey();
-                    mDatabase.child("user-posts").child(mAuth.getCurrentUser().getUid()).child(postId).child("author").setValue(nickname);
+                    userPostRef.child(postId).child("author").setValue(nickname);
                 }
             }
 
@@ -362,14 +469,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
-        mDatabase.child("posts").addValueEventListener(new ValueEventListener() {
+        nameListner2 = postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String postId = postSnapshot.getKey();
                     Post post = postSnapshot.getValue(Post.class);
                     if ((post.uid).equals(mAuth.getCurrentUser().getUid())) {
-                        mDatabase.child("posts").child(postId).child("author").setValue(nickname);
+                        postRef.child(postId).child("author").setValue(nickname);
                     }
                 }
             }
