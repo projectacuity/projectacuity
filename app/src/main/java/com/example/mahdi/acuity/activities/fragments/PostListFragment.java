@@ -2,9 +2,7 @@ package com.example.mahdi.acuity.activities.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.activities.SplashActivity;
 import com.example.mahdi.acuity.adpaters.PostViewHolder;
 import com.example.mahdi.acuity.models.Post;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -68,7 +65,7 @@ public abstract class PostListFragment extends Fragment {
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
 
-        Query postsQuery = getQuery(mDatabase);
+       Query postsQuery = getQuery(mDatabase);
         mAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.item_post,
                 PostViewHolder.class, postsQuery) {
             @Override

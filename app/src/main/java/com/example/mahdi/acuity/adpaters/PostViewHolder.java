@@ -1,19 +1,14 @@
 package com.example.mahdi.acuity.adpaters;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
 import com.example.mahdi.acuity.models.Post;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 

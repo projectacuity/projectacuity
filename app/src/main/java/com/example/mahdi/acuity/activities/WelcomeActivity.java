@@ -77,8 +77,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                 .READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         REQUEST_PERMISSIONS);
             }
-        } else {
-            //Call whatever you want
         }
     }
 }

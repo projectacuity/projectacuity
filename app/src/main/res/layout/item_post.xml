@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- item_post.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
@@ -116,14 +116,6 @@
                     android:textColor="@android:color/darker_gray"
                     android:gravity="center"
                     android:layout_marginRight="10dp"/>
-            <!--<ImageView-->
-                <!--android:id="@+id/btnMore"-->
-                <!--android:layout_width="24dp"-->
-                <!--android:layout_height="24dp"-->
-                <!--android:background="@android:color/transparent"-->
-                <!--card_view:srcCompat="@drawable/dots"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:visibility="gone"/>-->
             </LinearLayout>
 
         </LinearLayout>

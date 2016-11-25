@@ -44,7 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    protected static final String TAG = "BaseDrawerActivity";
+
     protected Activity activity=this;
     protected DrawerLayout drawerLayout;
     protected NavigationView vNavigation;

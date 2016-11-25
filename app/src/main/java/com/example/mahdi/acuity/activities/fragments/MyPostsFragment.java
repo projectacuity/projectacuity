@@ -19,11 +19,6 @@ public class MyPostsFragment extends PostListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("user-posts")
                 .child(this.uid);

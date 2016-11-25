@@ -13,9 +13,8 @@ public class MyTopPostsFragment extends PostListFragment {
 
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-        Query myTopPostsQuery = databaseReference.child("posts").orderByChild("likesCount");
 
-        return myTopPostsQuery;
+        return databaseReference.child("posts").orderByChild("likesCount");
     }
 
     @Override

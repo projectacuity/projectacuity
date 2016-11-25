@@ -11,7 +11,7 @@ public class PrefManager {
 
     int PRIVATE_MODE = 0;
 
-    private static final String PREF_NAME = "intro";
+    private static final String PREF_NAME = "Intro";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 

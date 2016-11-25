@@ -42,7 +42,7 @@ public class UploadPostActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
-    private ValueEventListener userListner;
+    private ValueEventListener userListener;
     private FloatingActionButton mSubmitButton;
     private static final int gal_intent = 2;
     private static final int camera_intent = 1;
@@ -95,8 +95,8 @@ public class UploadPostActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (userListner!=null) {
-            mDatabase.removeEventListener(userListner);
+        if (userListener !=null) {
+            mDatabase.removeEventListener(userListener);
         }
     }
 
@@ -104,7 +104,7 @@ public class UploadPostActivity extends AppCompatActivity {
         final String title = mTxt.getText().toString();
 
         final String userId = mAuth.getCurrentUser().getUid();
-        userListner = mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
+        userListener = mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);

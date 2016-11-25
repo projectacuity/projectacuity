@@ -87,7 +87,7 @@
                                         android:text="Manage my account"
                                         android:padding="2dp"
                                         android:textStyle="bold"
-                                        android:textSize="14dp"
+                                        android:textSize="14sp"
                                         android:textColor="@android:color/white"/>
                                     </LinearLayout>
                         </LinearLayout>
@@ -102,7 +102,6 @@
                     app:elevation="@dimen/default_elevation"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-                    />
                 </android.support.v7.widget.Toolbar>
 
 

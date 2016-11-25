@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="b9d27ff53cda25075081ee83f9ae0c0d214cbd26">
+        sha1="0e782be79e09d579dbce858bcd454350deadb0e5">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_07ba1577b8412fc8641ba1b74a398bdbb9e50c65\classes.dex" />
     </item>
     <item
@@ -327,21 +327,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_4f64d78977bf0836ec666c85f0778d6f13d9b972\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-core-2.2.2_823468218d066663a1ec11cb9f564500efb7f33f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\mahdi\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_4f64d78977bf0836ec666c85f0778d6f13d9b972\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -430,7 +430,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="901bacc43eeb4a546d7b57c2bf565305fa435f0d">
+        sha1="b06b6e14e28aa99772ae4023e07484963e37987f">
         <dex dex="C:\Users\mahdi\AndroidStudioProjects\projectacuity\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_8b56214e8070e5f5edd27a25e2b79fc4e05c6c07\classes.dex" />
     </item>
     <item

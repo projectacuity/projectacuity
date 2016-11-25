@@ -13,8 +13,7 @@ public class MyFlopPostsFragment extends PostListFragment {
 
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-        Query myTopPostsQuery = databaseReference.child("posts").orderByChild("dislikesCount");
-        return myTopPostsQuery;
+        return databaseReference.child("posts").orderByChild("dislikesCount");
     }
 
     @Override

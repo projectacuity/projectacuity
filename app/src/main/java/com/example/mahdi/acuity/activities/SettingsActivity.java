@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +67,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private LinearLayout emailClick;
     private LinearLayout passClick;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference mStorage;
     private DatabaseReference mDatabase;
     private DatabaseReference mUserRef;
@@ -381,7 +379,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (arrayAdapter.getItem(which)=="Camera") {
+                        if (arrayAdapter.getItem(which).equals("Camera")) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent,camera_intent);
                         }
@@ -489,7 +487,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
     private void updateMail(final String email) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.i("nizar4",email);
         user.updateEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

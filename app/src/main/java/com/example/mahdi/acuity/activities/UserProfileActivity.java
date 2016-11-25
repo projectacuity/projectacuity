@@ -1,9 +1,12 @@
 package com.example.mahdi.acuity.activities;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class UserProfileActivity extends BaseDrawerActivity {
-    private static final String TAG = "UserProfileActivity";
 
     ImageView ivUserProfilePhoto;
     TextView userName;
@@ -52,6 +54,10 @@ public class UserProfileActivity extends BaseDrawerActivity {
         else {
             uid=intent.getStringExtra("uid");
         }
+            Log.i("testapp","fragmentCreated");
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.my_feed, new MyPostsFragment(uid));
+            ft.commit();
         mUserRef = mDatabase.child("users").child(uid);
         manage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +66,11 @@ public class UserProfileActivity extends BaseDrawerActivity {
                 startActivity(intent);
             }
         });
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.my_feed, new MyPostsFragment(uid));
-        ft.commit();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
