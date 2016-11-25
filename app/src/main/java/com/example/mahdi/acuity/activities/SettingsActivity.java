@@ -404,7 +404,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             mProgdial.setMessage("Uploading photo...");
             mProgdial.show();
             StorageReference filepath = mStorage.child("photos")
-                    .child(mAuth.getCurrentUser().getUid()).child("profile").child(UUID.randomUUID().toString());
+                    .child(mAuth.getCurrentUser().getUid()).child("profile");
             filepath.child(UUID.randomUUID().toString()).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
