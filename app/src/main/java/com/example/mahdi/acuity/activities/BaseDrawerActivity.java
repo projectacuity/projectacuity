@@ -45,7 +45,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class BaseDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected Activity activity=this;
     protected DrawerLayout drawerLayout;
     protected NavigationView vNavigation;
     protected android.support.v7.widget.Toolbar toolbar;
@@ -58,9 +57,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
     protected FloatingActionButton floatingActionButton;
     protected static final int REQUEST_PERMISSIONS = 1;
 
-    public Activity getActivity() {
-        return activity;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +84,6 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         vNavigation.setNavigationItemSelectedListener(this);
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_new_post);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                allowPermissions();
-            }
-        });
     }
     public void signOut() {
         new AlertDialog.Builder(this)
@@ -123,7 +112,7 @@ public class BaseDrawerActivity extends AppCompatActivity implements NavigationV
                 .setNegativeButton("CANCEL", null)
                 .show();
     }
-    private void allowPermissions() {
+    protected void allowPermissions() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) + ContextCompat
                 .checkSelfPermission(this,

@@ -35,7 +35,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         deleteView = (ImageView) itemView.findViewById(R.id.btnDelete);
     }
 
-    public void bindToPost(Post post, View.OnClickListener likeClickListener, View.OnClickListener dislikeClickListener, View.OnClickListener userClickListener, boolean myAccount, View.OnClickListener deleteClickListener) {
+    public void bindToPost(Post post, View.OnClickListener likeClickListener, View.OnClickListener dislikeClickListener, View.OnClickListener userClickListener) {
         authorView.setText(post.author);
         if (post.comment.equals("")) {
             commentView.setVisibility(View.GONE);
@@ -47,9 +47,5 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         commentView.setOnClickListener(userClickListener);
         likesView.setOnClickListener(likeClickListener);
         dislikesView.setOnClickListener(dislikeClickListener);
-        if (myAccount) {
-            deleteView.setVisibility(View.VISIBLE);
-            deleteView.setOnClickListener(deleteClickListener);
-        }
     }
 }

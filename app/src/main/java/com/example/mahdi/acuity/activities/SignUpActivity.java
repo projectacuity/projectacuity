@@ -113,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity implements TextView.OnEdit
     }
 
     private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
         }

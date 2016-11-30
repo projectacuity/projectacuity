@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
@@ -60,8 +61,12 @@ public class SearchActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
         searchItem = menu.findItem(R.id.action_search);
+        searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+                | MenuItem.SHOW_AS_ACTION_ALWAYS);
         searchItem.expandActionView();
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        ViewGroup.LayoutParams layoutParams = searchView.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

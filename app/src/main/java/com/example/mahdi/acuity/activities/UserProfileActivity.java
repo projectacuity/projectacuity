@@ -1,10 +1,10 @@
 package com.example.mahdi.acuity.activities;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.activities.fragments.MyPostsFragment;
+import com.example.mahdi.acuity.fragments.MyPostsFragment;
 import com.example.mahdi.acuity.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +38,13 @@ public class UserProfileActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_new_post);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allowPermissions();
+            }
+        });
         ivUserProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
         userName = (TextView)findViewById(R.id.userName);
         manage = (LinearLayout) findViewById(R.id.btnManage);
@@ -54,7 +61,6 @@ public class UserProfileActivity extends BaseDrawerActivity {
         else {
             uid=intent.getStringExtra("uid");
         }
-            Log.i("testapp","fragmentCreated");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.my_feed, new MyPostsFragment(uid));
             ft.commit();

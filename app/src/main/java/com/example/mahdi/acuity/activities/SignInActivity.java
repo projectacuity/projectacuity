@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,7 +92,6 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
     }
 
     private void SignIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
             return;
         }

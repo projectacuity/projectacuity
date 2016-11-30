@@ -11,15 +11,6 @@
         android:id="@+id/flContentRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_new_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        app:srcCompat="@drawable/add_a_photo"
-        app:layout_anchorGravity="bottom|right|end"
-        android:layout_margin="14dp"/>
     </FrameLayout>
 
     <android.support.design.widget.NavigationView

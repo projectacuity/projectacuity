@@ -25,7 +25,8 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/ToolbarStyle"/>
+                android:theme="@style/ToolbarStyle"
+                app:tabGravity="fill"/>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -35,7 +36,18 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-
     </android.support.design.widget.CoordinatorLayout>
-
+    <FrameLayout
+        android:id="@+id/flContentRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_new_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            app:srcCompat="@drawable/add_a_photo"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_margin="14dp"/>
+    </FrameLayout>
 </RelativeLayout>

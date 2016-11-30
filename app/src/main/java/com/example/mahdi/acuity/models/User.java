@@ -32,6 +32,15 @@ public class User {
         result.put("photoUrl",photoUrl);
         return result;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -54,4 +63,5 @@ public class User {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+
 }

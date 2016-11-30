@@ -2,15 +2,17 @@ package com.example.mahdi.acuity.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.example.mahdi.acuity.R;
-import com.example.mahdi.acuity.activities.fragments.MyFlopPostsFragment;
-import com.example.mahdi.acuity.activities.fragments.MyTopPostsFragment;
-import com.example.mahdi.acuity.activities.fragments.RecentPostsFragment;
+import com.example.mahdi.acuity.fragments.MyFlopPostsFragment;
+import com.example.mahdi.acuity.fragments.MyTopPostsFragment;
+import com.example.mahdi.acuity.fragments.RecentPostsFragment;
 
 
 public class MainActivity extends BaseDrawerActivity {
@@ -21,6 +23,13 @@ public class MainActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_new_post);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allowPermissions();
+            }
+        });
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
                     new RecentPostsFragment(),

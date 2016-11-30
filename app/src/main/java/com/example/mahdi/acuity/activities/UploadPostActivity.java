@@ -39,13 +39,14 @@ import java.util.UUID;
 
 public class UploadPostActivity extends AppCompatActivity {
 
+    public static final int gal_intent = 200;
+    public static final int camera_intent = 100;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private DatabaseReference upRef;
     private StorageReference mStorage;
     private ValueEventListener userListener;
     private FloatingActionButton mSubmitButton;
-    private static final int gal_intent = 2;
-    private static final int camera_intent = 1;
     private ProgressDialog mProgdial;
     private ImageView mView;
     private TextInputEditText mTxt;
@@ -96,7 +97,7 @@ public class UploadPostActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (userListener !=null) {
-            mDatabase.removeEventListener(userListener);
+            upRef.removeEventListener(userListener);
         }
     }
 
@@ -104,7 +105,7 @@ public class UploadPostActivity extends AppCompatActivity {
         final String title = mTxt.getText().toString();
 
         final String userId = mAuth.getCurrentUser().getUid();
-        userListener = mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
+        userListener= new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user=dataSnapshot.getValue(User.class);
@@ -119,7 +120,9 @@ public class UploadPostActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-        });
+        };
+        upRef = mDatabase.child("users").child(userId);
+        upRef.addValueEventListener(userListener);
         Toast.makeText(getApplicationContext(),"Uploading post finished!",Toast.LENGTH_LONG).show();
         finish();
 
@@ -139,29 +142,29 @@ public class UploadPostActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode,resultCode,data);
         if((requestCode == camera_intent || requestCode == gal_intent) && resultCode == RESULT_OK){
 
             Uri uri = data.getData();
-            mProgdial.setMessage("Uploading photo...");
-            mProgdial.show();
-
-            StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
-                    .child(UUID.randomUUID().toString());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    mProgdial.dismiss();
-                    imgRef = taskSnapshot.getStorage().toString();
-                    imgUrl = taskSnapshot.getDownloadUrl().toString();
-                    cardView.setVisibility(View.VISIBLE);
-                    Glide.with(getApplicationContext()).load(imgUrl).centerCrop().into(mView);
-                    Toast.makeText(getApplicationContext(),"Uploading photo finished!",Toast.LENGTH_LONG).show();
-                    mTxt.requestFocus();
-                    mSubmitButton.setVisibility(View.VISIBLE);
-                }
-            });
-
+            if (uri!=null) {
+                mProgdial.setMessage("Uploading photo...");
+                mProgdial.show();
+                StorageReference filepath = mStorage.child("photos").child(mAuth.getCurrentUser().getUid())
+                        .child(UUID.randomUUID().toString());
+                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        mProgdial.dismiss();
+                        imgRef = taskSnapshot.getStorage().toString();
+                        imgUrl = taskSnapshot.getDownloadUrl().toString();
+                        cardView.setVisibility(View.VISIBLE);
+                        Glide.with(getApplicationContext()).load(imgUrl).centerCrop().into(mView);
+                        Toast.makeText(getApplicationContext(),"Uploading photo finished!",Toast.LENGTH_LONG).show();
+                        mTxt.requestFocus();
+                        mSubmitButton.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         }
     }
     protected void takePhotoAction() {
